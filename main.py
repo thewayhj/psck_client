@@ -45,5 +45,6 @@ if __name__ == '__main__':
         clientSocket.connect(ADDR_TCP_SERVER)
         data = clientSocket.recv(1024)
         print(data)
+        print(data)
     except:
         clientSocket.close()
