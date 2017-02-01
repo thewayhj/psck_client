@@ -1,0 +1,15 @@
+DEBUG: True
+TEST: False
+
+name: ozinger
+
+server:
+  host: '127.0.0.1'
+  port_udp_server: 8080
+  port_tcp_server: 8080
+record:
+  chunk: 8820
+  format: pyaudio.paInt16
+  channels: 1
+  rate: 8000
+  record_seconds: 10
