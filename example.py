@@ -2,7 +2,7 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import (QWidget, QToolTip,
     QPushButton, QMessageBox, QLineEdit, QApplication)
 
-from mainFrame import MainFrame
+from mainFrame import Ui_MainWindow
 
 
 class Example(QWidget):
