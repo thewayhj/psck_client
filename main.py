@@ -4,7 +4,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication
 
 from example import Example
-from mainFrame import MainFrame
+from mainFrame import Ui_MainWindow
 
 stream = open("setting.yaml", 'r')
 setting = yaml.load(stream)
@@ -21,7 +21,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
 
     MainWindow = QtWidgets.QMainWindow()
-    ui = MainFrame()
+    ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
 
