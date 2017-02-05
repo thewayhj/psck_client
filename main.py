@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication
 from example import Example
 from mainFrame import Ui_MainWindow
 
+
 stream = open("setting.yaml", 'r')
 setting = yaml.load(stream)
 HOST = setting['server']['host']
