@@ -15,8 +15,6 @@ class LoginFrame(object):
     def __init__(self, form, view):
         super().__init__()
 
-
-
         self.form1 = form
         self.setupUi(form, view)
         form.show()
@@ -24,8 +22,6 @@ class LoginFrame(object):
     def setupUi(self, Form, view):
         Form.setObjectName("Form")
         Form.resize(400, 300)
-
-
 
         self.verticalLayoutWidget = QtWidgets.QWidget(Form)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(50, 60, 345, 151))
@@ -97,7 +93,7 @@ class LoginFrame(object):
         connection = pymongo.MongoClient("pmw.iptime.org", 9002)
         db = connection.test
         collection = db.user
-        docs = collection.find({"id": self.textEdit_2.toPlainText(), "pw": self.textEdit.toPlainText()})
+        docs = collection.find({"id": self.lineEdit(), "pw": self.lineEdit_2()})
 
         if docs.count():
             self.form.hide()
