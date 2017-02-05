@@ -1,10 +1,15 @@
 import sys
-import yaml
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication
 
-from example import Example
-from mainFrame import MainFrame
+from PyQt5 import QtWidgets
+
+import yaml
+from PyQt5.QtCore import QUrl
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWidgets import QApplication
+from joinFrame import JoinFrame
+from loginFrame import LoginFrame
+from mainFrame import Ui_MainWindow
+
 
 stream = open("setting.yaml", 'r')
 setting = yaml.load(stream)
@@ -19,13 +24,28 @@ ADDR_UDP_SERVER = (HOST, PORT_UDP_SERVER)
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)
-
     MainWindow = QtWidgets.QMainWindow()
-    ui = MainFrame()
+    ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
 
+    view = QWebEngineView(MainWindow)
+    view.load(QUrl('http://192.168.0.203:3000'))
+    view.resize(300, 100)
+    view.show()
+
+    form1 = QtWidgets.QMainWindow()
+
+
+    login = LoginFrame(form1, view)
+    form1.show()
+
+    JoinFrame()
+
+
     sys.exit(app.exec_())
+
+
 
     # w = QWidget()
     # w.resize(250, 150)
@@ -38,12 +58,3 @@ if __name__ == '__main__':
     # btn.resize(btn.sizeHint())
     # btn.move(50, 50)
 
-
-    print(setting['server']['host'])
-    try:
-        clientSocket = socket(AF_INET, SOCK_STREAM)
-        clientSocket.connect(ADDR_TCP_SERVER)
-        data = clientSocket.recv(1024)
-        print(data)
-    except:
-        clientSocket.close()
