@@ -10,12 +10,12 @@ from joinFrame import JoinFrame
 
 class LoginFrame(object):
 
-    form1 = 1
+    login_form = 1
 
     def __init__(self, form, view):
         super().__init__()
 
-        self.form1 = form
+        self.login_form = form
         self.setupUi(form, view)
         form.show()
 
@@ -93,10 +93,10 @@ class LoginFrame(object):
         connection = pymongo.MongoClient("pmw.iptime.org", 9002)
         db = connection.test
         collection = db.user
-        docs = collection.find({"id": self.lineEdit(), "pw": self.lineEdit_2()})
+        docs = collection.find({"id": self.lineEdit.text(), "pw": self.lineEdit_2.text()})
 
         if docs.count():
-            self.form.hide()
+            self.login_form.hide()
         else:
             self.showdialog()
 
