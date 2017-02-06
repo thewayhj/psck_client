@@ -10,17 +10,6 @@ from joinFrame import JoinFrame
 from loginFrame import LoginFrame
 from mainFrame import Ui_MainWindow
 
-
-stream = open("setting.yaml", 'r')
-setting = yaml.load(stream)
-HOST = setting['server']['host']
-# HOST = '192.168.0.113'
-PORT_UDP_SERVER = setting['server']['port_udp_server']
-PORT_TCP_SERVER = setting['server']['port_tcp_server']
-ADDR_TCP_SERVER = (HOST, PORT_TCP_SERVER)
-ADDR_UDP_SERVER = (HOST, PORT_UDP_SERVER)
-
-
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)

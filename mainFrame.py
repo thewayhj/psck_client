@@ -192,8 +192,8 @@ class Ui_MainWindow(object):
     
     def retranslateUi(self, MainWindow):
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        #s.connect(('127.0.0.1', 0))
-      #  i = Ram_info()
+        # s.connect(('127.0.0.1', 0))
+        #  i = Ram_info()
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "HackerViewer"))
         __sortingEnabled = self.listWidget.isSortingEnabled()
@@ -225,81 +225,3 @@ class Ui_MainWindow(object):
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionsetting.setText(_translate("MainWindow", "setting"))
         self.actionhelp.setText(_translate("MainWindow", "help"))
-
-
-"""
-def get_registry_value(key, subkey, value):
-    if sys.platform != 'win32':
-        raise OSError("get_registry_value is only supported on Windows")
-
-    import winreg
-    key = getattr(winreg, key)
-    handle = winreg.OpenKey(key, subkey)
-    (value, type) = winreg.QueryValueEx(handle, value)
-    return valueㄴ
-
-"""
-
-#
-# class Ram_info:
-#     def __init__(self):
-#         self.os = self._os_version().strip()
-#         self.cpu = self._cpu().strip()
-#         self.browsers = self._browsers()
-#         self.totalRam, self.availableRam = self._ram()
-#         self.totalRam = self.totalRam / (1024 * 1024)
-#         self.availableRam = self.availableRam / (1024 * 1024)
-#         self.hdFree = self._disk_c() / (1024 * 1024 * 1024)
-#
-#     def _os_version(self):
-#         def get(key):
-#             return get_registry_value(
-#                 "HKEY_LOCAL_MACHINE",
-#                  "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
-#                 key)
-#
-#         os = get("ProductName")
-#         sp = get("CSDVersion")
-#         build = get("CurrentBuildNumber")
-#         return "%s %s (build %s)" % (os, sp, build)
-#
-#     def _cpu(self):
-#         return get_registry_value(
-#             "HKEY_LOCAL_MACHINE",
-#             "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
-#             "ProcessorNameString")
-#
-#     def _browsers(self):
-#         browsers = []
-#         firefox = self._firefox_version()
-#         if firefox:
-#              browsers.append(firefox)
-#         iexplore = self._iexplore_version()
-#         if iexplore:
-#             browsers.append(iexplore)
-#
-#         return browsers
-#
-#     def _ram(self):
-#         kernel32 = ctypes.windll.kernel32
-#         c_ulong = ctypes.c_ulong
-#
-#         class MEMORYSTATUS(ctypes.Structure):
-#             _fields_ = [
-#                 ('dwLength', c_ulong),
-#                 ('dwMemoryLoad', c_ulong),
-#                 ('dwTotalPhys', c_ulong),
-#                 ('dwAvailPhys', c_ulong),
-#                 ('dwTotalPageFile', c_ulong),
-#                 ('dwAvailPageFile', c_ulong),
-#                 ('dwTotalVirtual', c_ulong),
-#                 ('dwAvailVirtual', c_ulong)
-#             ]
-#
-#         memoryStatus = MEMORYSTATUS()
-#         memoryStatus.dwLength = ctypes.sizeof(MEMORYSTATUS)
-#         kernel32.GlobalMemoryStatus(ctypes.byref(memoryStatus))
-#         return (memoryStatus.dwTotalPhys, memoryStatus.dwAvailPhys)
-#
-#         return freeuser.value
-

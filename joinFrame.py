@@ -11,6 +11,8 @@ import pymongo
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication
 
+from mongoDao import JoinDao
+
 
 class JoinFrame(object):
     app = QApplication(sys.argv)
@@ -27,6 +29,7 @@ class JoinFrame(object):
     horizontalLayout = QtWidgets.QHBoxLayout()
     pushButton = QtWidgets.QPushButton(verticalLayoutWidget)
     pushButton_2 = QtWidgets.QPushButton(verticalLayoutWidget)
+    join = JoinDao()
 
     def __init__(self):
         self.setupUi(JoinFrame.qwidget)
@@ -86,11 +89,9 @@ class JoinFrame(object):
 
     @staticmethod
     def ok_btn_click():
-        connection = pymongo.MongoClient("pmw.iptime.org", 9002)
-        db = connection.test
-        collection = db.user
-        collection.insert({'id': JoinFrame.lineEdit.text(), 'pw': JoinFrame.lineEdit_2.text()})
-        JoinFrame.widget_hide()
+
+        if JoinFrame.join.join(JoinFrame.lineEdit.text(), JoinFrame.lineEdit_2.text()):
+            JoinFrame.widget_hide()
 
 
 
