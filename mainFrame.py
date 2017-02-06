@@ -8,6 +8,7 @@
 
 import ipaddress
 import socket
+import threading
 import datetime
 import time
 import os
@@ -15,13 +16,11 @@ import psutil
 import sys
 import ctypes
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QThread
 from PyQt5.QtCore import QUrl
 from psutil import virtual_memory
 
-now = time.localtime() #현재 시간
-time = "%04d-%02d-%02d %02d:%02d:%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec)
 booting_t=datetime.datetime.fromtimestamp(psutil.boot_time())
-usage_time=datetime.datetime.now()-booting_t
 
 mac_address = []
 ip_address = []
@@ -163,29 +162,29 @@ class Ui_MainWindow(object):
         self.label_ram_v.setObjectName("label_ram_v")
         self.verticalLayout_2.addWidget(self.label_ram_v)
 
-        self.label_access = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_access.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
-        self.label_access.setObjectName("label_access")
-        self.verticalLayout_2.addWidget(self.label_access)
-
-        self.label_access_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_access_v.setEnabled(True)
-        self.label_access_v.setMinimumSize(QtCore.QSize(0, 0))
-        self.label_access_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.label_access_v.setObjectName("label_access_v")
-        self.verticalLayout_2.addWidget(self.label_access_v)
-
         self.label_usage = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_usage.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
-        self.label_usage.setObjectName("label_usage")
+        self.label_usage.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft)
+        self.label_usage.setObjectName("label_access")
         self.verticalLayout_2.addWidget(self.label_usage)
 
         self.label_usage_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_usage_v.setEnabled(True)
         self.label_usage_v.setMinimumSize(QtCore.QSize(0, 0))
-        self.label_usage_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.label_usage_v.setObjectName("label_usage_v")
+        self.label_usage_v.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.label_usage_v.setObjectName("label_access_v")
         self.verticalLayout_2.addWidget(self.label_usage_v)
+
+        self.label_booting = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.label_booting.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft)
+        self.label_booting.setObjectName("label_usage")
+        self.verticalLayout_2.addWidget(self.label_booting)
+
+        self.label_booting_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.label_booting_v.setEnabled(True)
+        self.label_booting_v.setMinimumSize(QtCore.QSize(0, 0))
+        self.label_booting_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.label_booting_v.setObjectName("label_booting_v")
+        self.verticalLayout_2.addWidget(self.label_booting_v)
 
         self.verticalLayoutWidget.raise_()
         self.verticalLayoutWidget_2.raise_()
@@ -239,26 +238,47 @@ class Ui_MainWindow(object):
         self.label_name_v.setText(_translate("MainWindow", ""+socket.gethostname()))
 
         self.label_cpu.setText(_translate("MainWindow", "CPU"))
-        self.label_cpu_v.setText(_translate("MainWindow", "percent : "+str(psutil.cpu_percent(None))+"%"))
+        label_cpu_v_t=self.label_cpu_v
 
         self.label_ram.setText(_translate("MainWindow", "RAM"))
-        self.label_ram_v.setText(_translate("MainWindow", "total : "+str(round(psutil.virtual_memory().total/1024/1024))+"MB  available : "+str(round(psutil.virtual_memory().available/1024/1024))+"MB  \npercent : "+str(psutil.virtual_memory().percent)+"%")) #i.totalRam
+        label_ram_v_t=self.label_ram_v
 
-        usage_ts=usage_time.total_seconds()
-        usage_h=int(usage_ts/3600)
-        usage_m=int((usage_ts-(usage_h*3600))/60)
-        usage_s=int(usage_ts-(usage_h*3600)-(usage_m*60))
+        self.label_usage.setText(_translate("MainWindow", "Usage Time"))
+        label_usage_v_t=self.label_usage_v
 
-        self.label_access.setText(_translate("MainWindow", "Usage Time"))
-        self.label_access_v.setText(_translate("MainWindow", str(usage_h)+"시간 "+str(usage_m)+"분 "+str(usage_s)+"초"))
-
-        self.label_usage.setText(_translate("MainWindow", "Booting Time"))
-        self.label_usage_v.setText(_translate("MainWindow", ""+datetime.datetime.fromtimestamp(psutil.boot_time()).strftime("%Y-%m-%d %H:%M:%S")))
+        self.label_booting.setText(_translate("MainWindow", "Booting Time"))
+        self.label_booting_v.setText(_translate("MainWindow", ""+datetime.datetime.fromtimestamp(psutil.boot_time()).strftime("%Y-%m-%d %H:%M:%S")))
 
         self.menuSetting.setTitle(_translate("MainWindow", "Setting"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionsetting.setText(_translate("MainWindow", "setting"))
         self.actionhelp.setText(_translate("MainWindow", "help"))
 
+        class thread_status(QThread):
+            def __init__(self):
+                QThread.__init__(self)
 
+            def __del__(self):
+                self.wait()
+            def run(self):
+                while (True):
+                    label_cpu_v_t.setText(_translate("MainWindow", "percent : " + str(psutil.cpu_percent()) + "%"))
+                    label_ram_v_t.setText(_translate("MainWindow", "total : " + str(
+                        round(psutil.virtual_memory().total / 1024 / 1024)) + "MB  available : " + str(
+                        round(psutil.virtual_memory().available / 1024 / 1024)) + "MB  \npercent : " + str(
+                        psutil.virtual_memory().percent) + "%"))  # i.totalRam
+                    usage_time = datetime.datetime.now() - booting_t
+
+                    usage_ts = usage_time.total_seconds()
+                    usage_h = int(usage_ts / 3600)
+                    usage_m = int((usage_ts - (usage_h * 3600)) / 60)
+                    usage_s = int(usage_ts - (usage_h * 3600) - (usage_m * 60))
+
+                    label_usage_v_t.setText(
+                        _translate("MainWindow", str(usage_h) + "시간 " + str(usage_m) + "분 " + str(usage_s) + "초"))
+
+                    time.sleep(1)
+
+        self.t_status = thread_status()
+        self.t_status.start()
 
