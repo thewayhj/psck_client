@@ -8,6 +8,7 @@
 
 import ipaddress
 import socket
+import datetime
 import time
 import os
 import psutil
@@ -19,12 +20,20 @@ from psutil import virtual_memory
 
 now = time.localtime() #현재 시간
 time = "%04d-%02d-%02d %02d:%02d:%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec)
+booting_t=datetime.datetime.fromtimestamp(psutil.boot_time())
+usage_time=datetime.datetime.now()-booting_t
 
-mem = virtual_memory() # RAM 정보
+mac_address = []
+ip_address = []
 
-pid = os.getpid() # 메모리 사용량 정보
-py = psutil.Process(pid)
-memoryUse = py.memory_info()[0]/2.**30
+addrs = psutil.net_if_addrs().get('en0')
+
+for i in addrs:
+    if i.family == 18:  # Mac 주소
+       mac_address.append(i.address)
+    if i.family == 2:   # IP 주소
+        ip_address.append(i.address)
+
 
 
 class Ui_MainWindow(object):
@@ -206,9 +215,6 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
     
     def retranslateUi(self, MainWindow):
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(('www.naver.com', 80))
-      #  i = Ram_info()
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "HackerViewer"))
         __sortingEnabled = self.listWidget.isSortingEnabled()
@@ -224,25 +230,30 @@ class Ui_MainWindow(object):
         self.listWidget.setSortingEnabled(__sortingEnabled)
 
         self.label_ip.setText(_translate("MainWindow", "IP"))
-        self.label_ip_v.setText(_translate("MainWindow", ""+s.getsockname()[0]))
+        self.label_ip_v.setText(_translate("MainWindow", ""+str(ip_address)))
 
         self.label_mac.setText(_translate("MainWindow", "MAC"))
-        self.label_mac_v.setText(_translate("MainWindow", "null"))
+        self.label_mac_v.setText(_translate("MainWindow", ""+str(mac_address)))
 
         self.label_name.setText(_translate("MainWindow", "NAME"))
         self.label_name_v.setText(_translate("MainWindow", ""+socket.gethostname()))
 
         self.label_cpu.setText(_translate("MainWindow", "CPU"))
-        self.label_cpu_v.setText(_translate("MainWindow", "null"))
+        self.label_cpu_v.setText(_translate("MainWindow", "percent : "+str(psutil.cpu_percent(None))+"%"))
 
         self.label_ram.setText(_translate("MainWindow", "RAM"))
-        self.label_ram_v.setText(_translate("MainWindow", "")) #i.totalRam
+        self.label_ram_v.setText(_translate("MainWindow", "total : "+str(round(psutil.virtual_memory().total/1024/1024))+"MB  available : "+str(round(psutil.virtual_memory().available/1024/1024))+"MB  \npercent : "+str(psutil.virtual_memory().percent)+"%")) #i.totalRam
 
-        self.label_access.setText(_translate("MainWindow", "Access Time"))
-        self.label_access_v.setText(_translate("MainWindow", ""+str(time)))
+        usage_ts=usage_time.total_seconds()
+        usage_h=int(usage_ts/3600)
+        usage_m=int((usage_ts-(usage_h*3600))/60)
+        usage_s=int(usage_ts-(usage_h*3600)-(usage_m*60))
 
-        self.label_usage.setText(_translate("MainWindow", "Usage Time"))
-        self.label_usage_v.setText(_translate("MainWindow", "Memory Usage :"+str(memoryUse)))
+        self.label_access.setText(_translate("MainWindow", "Usage Time"))
+        self.label_access_v.setText(_translate("MainWindow", str(usage_h)+"시간 "+str(usage_m)+"분 "+str(usage_s)+"초"))
+
+        self.label_usage.setText(_translate("MainWindow", "Booting Time"))
+        self.label_usage_v.setText(_translate("MainWindow", ""+datetime.datetime.fromtimestamp(psutil.boot_time()).strftime("%Y-%m-%d %H:%M:%S")))
 
         self.menuSetting.setTitle(_translate("MainWindow", "Setting"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
@@ -250,79 +261,4 @@ class Ui_MainWindow(object):
         self.actionhelp.setText(_translate("MainWindow", "help"))
 
 
-"""
-def get_registry_value(key, subkey, value):
-    if sys.platform != 'win32':
-        raise OSError("get_registry_value is only supported on Windows")
-
-    import winreg
-    key = getattr(winreg, key)
-    handle = winreg.OpenKey(key, subkey)
-    (value, type) = winreg.QueryValueEx(handle, value)
-    return valueㄴ
-
-"""
-
-#
-# class Ram_info:
-#     def __init__(self):
-#         self.os = self._os_version().strip()
-#         self.cpu = self._cpu().strip()
-#         self.browsers = self._browsers()
-#         self.totalRam, self.availableRam = self._ram()
-#         self.totalRam = self.totalRam / (1024 * 1024)
-#         self.availableRam = self.availableRam / (1024 * 1024)
-#         self.hdFree = self._disk_c() / (1024 * 1024 * 1024)
-#
-#     def _os_version(self):
-#         def get(key):
-#             return get_registry_value(
-#                 "HKEY_LOCAL_MACHINE",
-#                  "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
-#                 key)
-#
-#         os = get("ProductName")
-#         sp = get("CSDVersion")
-#         build = get("CurrentBuildNumber")
-#         return "%s %s (build %s)" % (os, sp, build)
-#
-#     def _cpu(self):
-#         return get_registry_value(
-#             "HKEY_LOCAL_MACHINE",
-#             "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
-#             "ProcessorNameString")
-#
-#     def _browsers(self):
-#         browsers = []
-#         firefox = self._firefox_version()
-#         if firefox:
-#              browsers.append(firefox)
-#         iexplore = self._iexplore_version()
-#         if iexplore:
-#             browsers.append(iexplore)
-#
-#         return browsers
-#
-#     def _ram(self):
-#         kernel32 = ctypes.windll.kernel32
-#         c_ulong = ctypes.c_ulong
-#
-#         class MEMORYSTATUS(ctypes.Structure):
-#             _fields_ = [
-#                 ('dwLength', c_ulong),
-#                 ('dwMemoryLoad', c_ulong),
-#                 ('dwTotalPhys', c_ulong),
-#                 ('dwAvailPhys', c_ulong),
-#                 ('dwTotalPageFile', c_ulong),
-#                 ('dwAvailPageFile', c_ulong),
-#                 ('dwTotalVirtual', c_ulong),
-#                 ('dwAvailVirtual', c_ulong)
-#             ]
-#
-#         memoryStatus = MEMORYSTATUS()
-#         memoryStatus.dwLength = ctypes.sizeof(MEMORYSTATUS)
-#         kernel32.GlobalMemoryStatus(ctypes.byref(memoryStatus))
-#         return (memoryStatus.dwTotalPhys, memoryStatus.dwAvailPhys)
-#
-#         return freeuser.value
 
