@@ -93,76 +93,91 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setContentsMargins(30, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
+
         self.label_ip = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_ip.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
         self.label_ip.setObjectName("label_ip")
         self.verticalLayout_2.addWidget(self.label_ip)
-        self.label_access = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_access.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
-        self.label_access.setObjectName("label_access")
-        self.verticalLayout_2.addWidget(self.label_access)
+
         self.label_ip_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_ip_v.setEnabled(True)
         self.label_ip_v.setMinimumSize(QtCore.QSize(0, 0))
-        self.label_ip_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.label_ip_v.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
         self.label_ip_v.setObjectName("label_ip_v")
         self.verticalLayout_2.addWidget(self.label_ip_v)
+
         self.label_mac = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_mac.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
         self.label_mac.setObjectName("label_mac")
         self.verticalLayout_2.addWidget(self.label_mac)
+
         self.label_mac_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_mac_v.setEnabled(True)
         self.label_mac_v.setMinimumSize(QtCore.QSize(0, 0))
         self.label_mac_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_mac_v.setObjectName("label_mac_v")
         self.verticalLayout_2.addWidget(self.label_mac_v)
+
         self.label_name = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_name.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
         self.label_name.setObjectName("label_name")
         self.verticalLayout_2.addWidget(self.label_name)
+
         self.label_name_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_name_v.setEnabled(True)
         self.label_name_v.setMinimumSize(QtCore.QSize(0, 0))
         self.label_name_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_name_v.setObjectName("label_name_v")
         self.verticalLayout_2.addWidget(self.label_name_v)
+
         self.label_cpu = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_cpu.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
         self.label_cpu.setObjectName("label_cpu")
         self.verticalLayout_2.addWidget(self.label_cpu)
+
         self.label_cpu_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_cpu_v.setEnabled(True)
         self.label_cpu_v.setMinimumSize(QtCore.QSize(0, 0))
         self.label_cpu_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_cpu_v.setObjectName("label_cpu_v")
         self.verticalLayout_2.addWidget(self.label_cpu_v)
+
         self.label_ram = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_ram.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
         self.label_ram.setObjectName("label_ram")
         self.verticalLayout_2.addWidget(self.label_ram)
+
         self.label_ram_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_ram_v.setEnabled(True)
         self.label_ram_v.setMinimumSize(QtCore.QSize(0, 0))
         self.label_ram_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_ram_v.setObjectName("label_ram_v")
         self.verticalLayout_2.addWidget(self.label_ram_v)
+
+        self.label_access = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.label_access.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
+        self.label_access.setObjectName("label_access")
+        self.verticalLayout_2.addWidget(self.label_access)
+
         self.label_access_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_access_v.setEnabled(True)
         self.label_access_v.setMinimumSize(QtCore.QSize(0, 0))
         self.label_access_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_access_v.setObjectName("label_access_v")
         self.verticalLayout_2.addWidget(self.label_access_v)
+
         self.label_usage = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_usage.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
         self.label_usage.setObjectName("label_usage")
         self.verticalLayout_2.addWidget(self.label_usage)
+
         self.label_usage_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_usage_v.setEnabled(True)
         self.label_usage_v.setMinimumSize(QtCore.QSize(0, 0))
         self.label_usage_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_usage_v.setObjectName("label_usage_v")
         self.verticalLayout_2.addWidget(self.label_usage_v)
+
         self.verticalLayoutWidget.raise_()
         self.verticalLayoutWidget_2.raise_()
         self.listWidget.raise_()
@@ -192,7 +207,7 @@ class Ui_MainWindow(object):
     
     def retranslateUi(self, MainWindow):
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        #s.connect(('127.0.0.1', 0))
+        s.connect(('www.naver.com', 80))
       #  i = Ram_info()
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "HackerViewer"))
@@ -207,20 +222,28 @@ class Ui_MainWindow(object):
         item = self.listWidget.item(3)
         item.setText(_translate("MainWindow", "Kim Heejoong"))
         self.listWidget.setSortingEnabled(__sortingEnabled)
-        self.label_ip.setText(_translate("MainWindow", "IP : "+s.getsockname()[0]))
-        self.label_access.setText(_translate("MainWindow", "Access Time"))
-        self.label_ip_v.setText(_translate("MainWindow", ""+str(time)))
+
+        self.label_ip.setText(_translate("MainWindow", "IP"))
+        self.label_ip_v.setText(_translate("MainWindow", ""+s.getsockname()[0]))
+
         self.label_mac.setText(_translate("MainWindow", "MAC"))
         self.label_mac_v.setText(_translate("MainWindow", "null"))
+
         self.label_name.setText(_translate("MainWindow", "NAME"))
         self.label_name_v.setText(_translate("MainWindow", ""+socket.gethostname()))
+
         self.label_cpu.setText(_translate("MainWindow", "CPU"))
         self.label_cpu_v.setText(_translate("MainWindow", "null"))
+
         self.label_ram.setText(_translate("MainWindow", "RAM"))
         self.label_ram_v.setText(_translate("MainWindow", "")) #i.totalRam
-        self.label_access_v.setText(_translate("MainWindow", "null"))
+
+        self.label_access.setText(_translate("MainWindow", "Access Time"))
+        self.label_access_v.setText(_translate("MainWindow", ""+str(time)))
+
         self.label_usage.setText(_translate("MainWindow", "Usage Time"))
         self.label_usage_v.setText(_translate("MainWindow", "Memory Usage :"+str(memoryUse)))
+
         self.menuSetting.setTitle(_translate("MainWindow", "Setting"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionsetting.setText(_translate("MainWindow", "setting"))
