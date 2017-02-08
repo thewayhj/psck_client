@@ -6,19 +6,13 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-import ipaddress
+
 import socket
-import threading
 import datetime
 import time
-import os
 import psutil
-import sys
-import ctypes
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThread
-from PyQt5.QtCore import QUrl
-from psutil import virtual_memory
 
 booting_t=datetime.datetime.fromtimestamp(psutil.boot_time())
 
