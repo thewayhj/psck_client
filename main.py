@@ -9,10 +9,10 @@ from mainFrame import Ui_MainWindow
 
 stream = open("setting.yaml", 'r')
 setting = yaml.load(stream)
-HOST = setting['server']['host']
+HOST = setting['mongodb_server']['host']
 # HOST = '192.168.0.113'
-PORT_UDP_SERVER = setting['server']['port_udp_server']
-PORT_TCP_SERVER = setting['server']['port_tcp_server']
+PORT_UDP_SERVER = setting['mongodb_server']['port']
+PORT_TCP_SERVER = setting['node.js_server']['port']
 ADDR_TCP_SERVER = (HOST, PORT_TCP_SERVER)
 ADDR_UDP_SERVER = (HOST, PORT_UDP_SERVER)
 
