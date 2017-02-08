@@ -1,5 +1,7 @@
 import sys
+from os import fork
 
+import time
 from PyQt5 import QtWidgets
 
 import yaml
@@ -9,41 +11,39 @@ from PyQt5.QtWidgets import QApplication
 from joinFrame import JoinFrame
 from loginFrame import LoginFrame
 from mainFrame import Ui_MainWindow
-
-
-stream = open("setting.yaml", 'r')
-setting = yaml.load(stream)
-HOST = setting['server']['host']
-# HOST = '192.168.0.113'
-PORT_UDP_SERVER = setting['server']['port_udp_server']
-PORT_TCP_SERVER = setting['server']['port_tcp_server']
-ADDR_TCP_SERVER = (HOST, PORT_TCP_SERVER)
-ADDR_UDP_SERVER = (HOST, PORT_UDP_SERVER)
-
+from myhttp import Communication
+from util import MyYaml
 
 if __name__ == '__main__':
 
-    app = QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
+    Communication.send2()
+    pid = fork()
+    if pid is 0:
+        while True:
+            Communication.send2()
+            time.sleep(10)
+    else:
+        app = QApplication(sys.argv)
+        MainWindow = QtWidgets.QMainWindow()
+        ui = Ui_MainWindow()
+        ui.setupUi(MainWindow)
+        MainWindow.show()
 
-    view = QWebEngineView(MainWindow)
-    view.load(QUrl('http://192.168.0.203:3000'))
-    view.resize(300, 100)
-    view.show()
+        view = QWebEngineView(MainWindow)
+        view.load(QUrl('http://'+MyYaml.node_js_host+':'+str(MyYaml.node_js_port)))
+        view.resize(300, 100)
+        view.show()
 
-    form1 = QtWidgets.QMainWindow()
-
-
-    login = LoginFrame(form1, view)
-    form1.show()
-
-    JoinFrame()
+        form1 = QtWidgets.QMainWindow()
 
 
-    sys.exit(app.exec_())
+        login = LoginFrame(form1, view)
+        form1.show()
+
+        JoinFrame.init1()
+
+
+        sys.exit(app.exec_())
 
 
 

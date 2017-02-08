@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtCore import QUrl
 from joinFrame import JoinFrame
+from mongoDao import LoginDao
 
 
 class LoginFrame(object):
@@ -90,17 +91,11 @@ class LoginFrame(object):
         self.pushButton_signup.setText(_translate("Form", "Sign up"))
 
     def btnOkClicked(self, i):
-        connection = pymongo.MongoClient("pmw.iptime.org", 9002)
-        db = connection.test
-        collection = db.user
-        docs = collection.find({"id": self.lineEdit.text(), "pw": self.lineEdit_2.text()})
 
-        if docs.count():
-            self.login_form.hide()
+        if LoginDao.login(self.lineEdit.text(), self.lineEdit_2.text()):
+            self.form1.hide()
         else:
             self.showdialog()
-
-
 
     def showdialog(self):
         d = QDialog()
