@@ -11,12 +11,12 @@ from mongoDao import LoginDao
 
 class LoginFrame(object):
 
-    form1 = 1
+    login_form = 1
 
     def __init__(self, form, view):
         super().__init__()
 
-        self.form1 = form
+        self.login_form = form
         self.setupUi(form, view)
         form.show()
 
@@ -56,15 +56,15 @@ class LoginFrame(object):
 
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.pushButton = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout.addWidget(self.pushButton)
-        self.pushButton_3 = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.horizontalLayout.addWidget(self.pushButton_3)
-        self.pushButton_2 = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.horizontalLayout.addWidget(self.pushButton_2)
+        self.pushButton_signin = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.pushButton_signin.setObjectName("pushButton_signin")
+        self.pushButton_signup = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.pushButton_signup.setObjectName("pushButton_signup")
+        self.pushButton_cancel = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.pushButton_cancel.setObjectName("pushButton_cancel")
+        self.horizontalLayout.addWidget(self.pushButton_signin)
+        self.horizontalLayout.addWidget(self.pushButton_signup)
+        self.horizontalLayout.addWidget(self.pushButton_cancel)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.verticalLayoutWidget.raise_()
 
@@ -73,9 +73,9 @@ class LoginFrame(object):
         self.retranslateUi(Form)
 
 
-        self.pushButton.clicked.connect(self.btnOkClicked)
-        self.pushButton_2.clicked.connect(self.btnOkClicked)
-        self.pushButton_3.clicked.connect(JoinFrame.widget_show)
+        self.pushButton_cancel.clicked.connect(self.btnOkClicked)
+        self.pushButton_signin.clicked.connect(self.btnOkClicked)
+        self.pushButton_signup.clicked.connect(JoinFrame.widget_show)
 
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -83,12 +83,12 @@ class LoginFrame(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
 
-        self.label_2.setText(_translate("Form", "ID"))
-        self.label.setText(_translate("Form", "PW"))
+        self.label.setText(_translate("Form", "ID"))
+        self.label_2.setText(_translate("Form", "PW"))
 
-        self.pushButton.setText(_translate("Form", "Cancel"))
-        self.pushButton_2.setText(_translate("Form", "OK"))
-        self.pushButton_3.setText(_translate("Form", "Join"))
+        self.pushButton_cancel.setText(_translate("Form", "Cancel"))
+        self.pushButton_signin.setText(_translate("Form", "Sign in"))
+        self.pushButton_signup.setText(_translate("Form", "Sign up"))
 
     def btnOkClicked(self, i):
 
