@@ -13,8 +13,8 @@ import os
 import psutil
 import sys
 import ctypes
-import winreg
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QUrl
 from psutil import virtual_memory
 
 now = time.localtime() #현재 시간
@@ -27,9 +27,9 @@ py = psutil.Process(pid)
 memoryUse = py.memory_info()[0]/2.**30
 
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(634, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -192,8 +192,8 @@ class Ui_MainWindow(object):
     
     def retranslateUi(self, MainWindow):
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(('www.naver.com', 0))
-      #  i = Ram_info()
+        s.connect(('pmw.iptime.org', 80))
+        #  i = Ram_info()
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "HackerViewer"))
         __sortingEnabled = self.listWidget.isSortingEnabled()
@@ -225,88 +225,3 @@ class Ui_MainWindow(object):
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionsetting.setText(_translate("MainWindow", "setting"))
         self.actionhelp.setText(_translate("MainWindow", "help"))
-
- #
- #
- #    def get_registry_value(key, subkey, value):
- #        if sys.platform != 'win32':
- #            raise OSError("get_registry_value is only supported on Windows")
- #
- #        import winreg
- #        key = getattr(winreg, key)
- #        handle = winreg.OpenKey(key, subkey)
- #        (value, type) = winreg.QueryValueEx(handle, value)
- #        return value
- #
- # class Ram_info:
- #     def __init__(self):
- #         self.os = self._os_version().strip()
- #         self.cpu = self._cpu().strip()
- #         self.browsers = self._browsers()
- #         self.totalRam, self.availableRam = self._ram()
- #         self.totalRam = self.totalRam / (1024 * 1024)
- #         self.availableRam = self.availableRam / (1024 * 1024)
- #         self.hdFree = self._disk_c() / (1024 * 1024 * 1024)
- #
- #     def _os_version(self):
- #         def get(key):
- #             return get_registry_value(
- #                 "HKEY_LOCAL_MACHINE",
- #                  "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
- #                 key)
- #
- #         os = get("ProductName")
- #         sp = get("CSDVersion")
- #         build = get("CurrentBuildNumber")
- #         return "%s %s (build %s)" % (os, sp, build)
- #
- #     def _cpu(self):
- #         return get_registry_value(
- #             "HKEY_LOCAL_MACHINE",
- #             "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
- #             "ProcessorNameString")
- #
- #     def _browsers(self):
- #         browsers = []
- #         firefox = self._firefox_version()
- #         if firefox:
- #              browsers.append(firefox)
- #         iexplore = self._iexplore_version()
- #         if iexplore:
- #             browsers.append(iexplore)
- #
- #         return browsers
- #
- #     def _ram(self):
- #         kernel32 = ctypes.windll.kernel32
- #         c_ulong = ctypes.c_ulong
- #
- #         class MEMORYSTATUS(ctypes.Structure):
- #             _fields_ = [
- #                 ('dwLength', c_ulong),
- #                 ('dwMemoryLoad', c_ulong),
- #                 ('dwTotalPhys', c_ulong),
- #                 ('dwAvailPhys', c_ulong),
- #                 ('dwTotalPageFile', c_ulong),
- #                 ('dwAvailPageFile', c_ulong),
- #                 ('dwTotalVirtual', c_ulong),
- #                 ('dwAvailVirtual', c_ulong)
- #             ]
- #
- #         memoryStatus = MEMORYSTATUS()
- #         memoryStatus.dwLength = ctypes.sizeof(MEMORYSTATUS)
- #         kernel32.GlobalMemoryStatus(ctypes.byref(memoryStatus))
- #         return (memoryStatus.dwTotalPhys, memoryStatus.dwAvailPhys)
- #
- #         return freeuser.value
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
-
