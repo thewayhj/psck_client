@@ -15,27 +15,40 @@ from mongoDao import JoinDao
 
 
 class JoinFrame(object):
-    app = QApplication(sys.argv)
-    qwidget = QtWidgets.QWidget()
-    verticalLayoutWidget = QtWidgets.QWidget(qwidget)
-    verticalLayout = QtWidgets.QVBoxLayout(verticalLayoutWidget)
-    horizontalLayout_3 = QtWidgets.QHBoxLayout()
-    verticalLayout_4 = QtWidgets.QVBoxLayout()
-    label = QtWidgets.QLabel(verticalLayoutWidget)
-    label_2 = QtWidgets.QLabel(verticalLayoutWidget)
-    verticalLayout_5 = QtWidgets.QVBoxLayout()
-    lineEdit = QtWidgets.QLineEdit(verticalLayoutWidget)
-    lineEdit_2 = QtWidgets.QLineEdit(verticalLayoutWidget)
-    horizontalLayout = QtWidgets.QHBoxLayout()
-    pushButton = QtWidgets.QPushButton(verticalLayoutWidget)
-    pushButton_2 = QtWidgets.QPushButton(verticalLayoutWidget)
-    join = JoinDao()
 
-    def __init__(self):
-        self.setupUi(JoinFrame.qwidget)
+    qwidget = None
+    verticalLayoutWidget = None
+    verticalLayout = None
+    horizontalLayout_3 = None
+    verticalLayout_4 = None
+    label = None
+    label_2 = None
+    verticalLayout_5 = None
+    lineEdit = None
+    lineEdit_2 = None
+    horizontalLayout = None
+    pushButton = None
+    pushButton_2 = None
 
     @staticmethod
-    def setupUi(self):
+    def init1():
+        JoinFrame.qwidget = QtWidgets.QWidget()
+        JoinFrame.verticalLayoutWidget = QtWidgets.QWidget(JoinFrame.qwidget)
+        JoinFrame.verticalLayout = QtWidgets.QVBoxLayout(JoinFrame.verticalLayoutWidget)
+        JoinFrame.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        JoinFrame.verticalLayout_4 = QtWidgets.QVBoxLayout()
+        JoinFrame.label = QtWidgets.QLabel(JoinFrame.verticalLayoutWidget)
+        JoinFrame.label_2 = QtWidgets.QLabel(JoinFrame.verticalLayoutWidget)
+        JoinFrame.verticalLayout_5 = QtWidgets.QVBoxLayout()
+        JoinFrame.lineEdit = QtWidgets.QLineEdit(JoinFrame.verticalLayoutWidget)
+        JoinFrame.lineEdit_2 = QtWidgets.QLineEdit(JoinFrame.verticalLayoutWidget)
+        JoinFrame.horizontalLayout = QtWidgets.QHBoxLayout()
+        JoinFrame.pushButton = QtWidgets.QPushButton(JoinFrame.verticalLayoutWidget)
+        JoinFrame.pushButton_2 = QtWidgets.QPushButton(JoinFrame.verticalLayoutWidget)
+        JoinFrame.setup_ui()
+
+    @staticmethod
+    def setup_ui():
         JoinFrame.qwidget.setObjectName("form")
         JoinFrame.qwidget.resize(400, 300)
 
@@ -68,6 +81,8 @@ class JoinFrame(object):
         JoinFrame.retranslateUi()
 
         JoinFrame.pushButton.clicked.connect(JoinFrame.ok_btn_click)
+        JoinFrame.pushButton_2.clicked.connect(JoinFrame.cancel_btn_click)
+
         QtCore.QMetaObject.connectSlotsByName(JoinFrame.qwidget)
 
     @staticmethod
@@ -89,9 +104,9 @@ class JoinFrame(object):
 
     @staticmethod
     def ok_btn_click():
-
-        if JoinFrame.join.join(JoinFrame.lineEdit.text(), JoinFrame.lineEdit_2.text()):
+        if JoinDao.join(JoinFrame.lineEdit.text(), JoinFrame.lineEdit_2.text()):
             JoinFrame.widget_hide()
 
-
-
+    @staticmethod
+    def cancel_btn_click():
+        JoinFrame.widget_hide()

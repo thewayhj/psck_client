@@ -16,7 +16,6 @@ class LoginFrame(object):
     def __init__(self, form, view):
         super().__init__()
 
-        self.loginDao = LoginDao()
         self.form1 = form
         self.setupUi(form, view)
         form.show()
@@ -93,7 +92,7 @@ class LoginFrame(object):
 
     def btnOkClicked(self, i):
 
-        if self.loginDao.login(self.lineEdit.text(), self.lineEdit_2.text()):
+        if LoginDao.login(self.lineEdit.text(), self.lineEdit_2.text()):
             self.form1.hide()
         else:
             self.showdialog()

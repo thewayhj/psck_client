@@ -192,7 +192,7 @@ class Ui_MainWindow(object):
     
     def retranslateUi(self, MainWindow):
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        # s.connect(('127.0.0.1', 0))
+        s.connect(('pmw.iptime.org', 80))
         #  i = Ram_info()
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "HackerViewer"))
