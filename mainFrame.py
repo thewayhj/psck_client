@@ -20,6 +20,8 @@ from PyQt5.QtCore import QThread
 from PyQt5.QtCore import QUrl
 from psutil import virtual_memory
 
+from devicedo import DeviceDo
+
 booting_t=datetime.datetime.fromtimestamp(psutil.boot_time())
 
 mac_address = []
@@ -27,13 +29,13 @@ ip_address = []
 
 addrs = psutil.net_if_addrs().get('en0')
 
+
+
 for i in addrs:
     if i.family == 18:  # Mac 주소
        mac_address.append(i.address)
     if i.family == 2:   # IP 주소
         ip_address.append(i.address)
-
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
