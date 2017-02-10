@@ -23,6 +23,8 @@ from PyQt5.QtCore import QThread
 from PyQt5.QtCore import QUrl
 from psutil import virtual_memory
 
+from devicedo import DeviceDo
+
 booting_t=datetime.datetime.fromtimestamp(psutil.boot_time())
 
 mac_address = []
@@ -51,6 +53,7 @@ def get_ip_address(): # IP Address function
     elif platform.system() == "Windows":
         hostname = socket.gethostname()
         return socket.gethostbyname(hostname)
+
 
 
 class Ui_MainWindow(object):
