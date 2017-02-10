@@ -1,6 +1,6 @@
 import sys
 from os import fork
-
+import webbrowser
 import time
 from PyQt5 import QtWidgets
 
@@ -14,13 +14,14 @@ from mainFrame import Ui_MainWindow
 from myhttp import Communication
 from util import MyYaml
 
+
 if __name__ == '__main__':
 
-    Communication.send2()
+    #Communication.send2()
     pid = fork()
     if pid is 0:
         while True:
-            Communication.send2()
+     #       Communication.send2()
             time.sleep(10)
     else:
         app = QApplication(sys.argv)
@@ -30,15 +31,14 @@ if __name__ == '__main__':
         MainWindow.show()
 
         view = QWebEngineView(MainWindow)
-        view.load(QUrl('http://'+MyYaml.node_js_host+':'+str(MyYaml.node_js_port)))
-        view.resize(300, 100)
-        view.show()
+        # view.load(QUrl('http://'+MyYaml.node_js_host+':'+str(MyYaml.node_js_port)))
+        # view.resize(300, 100)
+        # view.show()
+        form1=QtWidgets.QMainWindow()
 
-        form1 = QtWidgets.QMainWindow()
-
-
-        login = LoginFrame(form1, view)
+        login = LoginFrame(form1,view)
         form1.show()
+
 
         JoinFrame.init1()
 
