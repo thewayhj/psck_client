@@ -1,5 +1,5 @@
 import sys
-import os
+from os import fork
 
 import time
 from PyQt5 import QtWidgets
@@ -11,6 +11,7 @@ from loginFrame import LoginFrame
 from mainFrame import Ui_MainWindow
 from myhttp import Communication, ThreadCommunication
 from util import MyYaml
+
 
 if __name__ == '__main__':
 
@@ -24,9 +25,7 @@ if __name__ == '__main__':
     MainWindow.show()
 
     view = QWebEngineView(MainWindow)
-    view.load(QUrl('http://'+MyYaml.node_js_host+':'+str(MyYaml.node_js_port)))
-    view.resize(300, 100)
-    view.show()
+
 
     form1 = QtWidgets.QMainWindow()
 
@@ -39,15 +38,4 @@ if __name__ == '__main__':
     sys.exit(app.exec_())
 
 
-
-    # w = QWidget()
-    # w.resize(250, 150)
-    # w.move(300, 300)
-    # w.setWindowTitle('Simple')
-    # w.show()
-    #
-    # btn = QPushButton('Button', self)
-    # btn.setToolTip('This is a <b>QPushButton</b> widget')
-    # btn.resize(btn.sizeHint())
-    # btn.move(50, 50)
 
