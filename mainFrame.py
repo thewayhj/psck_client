@@ -13,8 +13,11 @@ import datetime
 import time
 import os
 import psutil
+import platform
+import uuid
 import sys
 import ctypes
+from uuid import getnode as get_mac
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThread
 from PyQt5.QtCore import QUrl
@@ -27,15 +30,31 @@ booting_t=datetime.datetime.fromtimestamp(psutil.boot_time())
 mac_address = []
 ip_address = []
 
-addrs = psutil.net_if_addrs().get('en0')
+def get_mac_address(): # Mac Address function
+    if platform.system() == "Darwin":
+        addrs = psutil.net_if_addrs().get('en0')
+        for i in addrs:
+            if i.family == 18:  # Mac 주소
+                mac_address.append(i.address)
+        return mac_address
+
+    elif platform.system() == "Windows":
+        mac_num = hex(uuid.getnode()).replace('0x', '').upper()
+        mac = '-'.join(mac_num[i: i + 2] for i in range(0, 11, 2))
+        return mac
+
+def get_ip_address(): # IP Address function
+    if platform.system() == "Darwin":
+        addrs = psutil.net_if_addrs().get('en0')
+        for i in addrs:
+            if i.family == 2:  # IP 주소
+                ip_address.append(addrs.address)
+        return ip_address
+    elif platform.system() == "Windows":
+        hostname = socket.gethostname()
+        return socket.gethostbyname(hostname)
 
 
-
-for i in addrs:
-    if i.family == 18:  # Mac 주소
-       mac_address.append(i.address)
-    if i.family == 2:   # IP 주소
-        ip_address.append(i.address)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -231,10 +250,10 @@ class Ui_MainWindow(object):
         self.listWidget.setSortingEnabled(__sortingEnabled)
 
         self.label_ip.setText(_translate("MainWindow", "IP"))
-        self.label_ip_v.setText(_translate("MainWindow", ""+str(ip_address)))
+        self.label_ip_v.setText(_translate("MainWindow", ""+str(get_ip_address())))
 
         self.label_mac.setText(_translate("MainWindow", "MAC"))
-        self.label_mac_v.setText(_translate("MainWindow", ""+str(mac_address)))
+        self.label_mac_v.setText(_translate("MainWindow", ""+str(get_mac_address())))
 
         self.label_name.setText(_translate("MainWindow", "NAME"))
         self.label_name_v.setText(_translate("MainWindow", ""+socket.gethostname()))

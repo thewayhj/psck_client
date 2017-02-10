@@ -1,0 +1,11 @@
+DEBUG: True
+TEST: False
+
+name: ozinger
+
+mongodb_server:
+  host: 'pmw.iptime.org'
+  port: 9002
+node.js_server:
+  host: 'pmw.iptime.org'
+  port: 9003

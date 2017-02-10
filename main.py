@@ -1,4 +1,7 @@
 import sys
+import os
+
+import time
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QUrl
 from PyQt5.QtWebEngineWidgets import QWebEngineView
@@ -10,8 +13,6 @@ from myhttp import Communication, ThreadCommunication
 from util import MyYaml
 
 if __name__ == '__main__':
-
-
 
     comm = ThreadCommunication()
     comm.start()
