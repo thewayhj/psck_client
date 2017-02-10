@@ -15,12 +15,12 @@ import platform
 import uuid
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThread
+import main,adduser
 
 booting_t=datetime.datetime.fromtimestamp(psutil.boot_time())
 
 mac_address = []
 ip_address = []
-
 def get_mac_address(): # Mac Address function
     if platform.system() == "Darwin":
         addrs = psutil.net_if_addrs().get('en0')
@@ -44,7 +44,6 @@ def get_ip_address(): # IP Address function
     elif platform.system() == "Windows":
         hostname = socket.gethostname()
         return socket.gethostbyname(hostname)
-
 
 
 class Ui_MainWindow(object):
@@ -75,37 +74,7 @@ class Ui_MainWindow(object):
         self.listWidget.setWordWrap(False)
         self.listWidget.setSelectionRectVisible(False)
         self.listWidget.setObjectName("listWidget")
-        item = QtWidgets.QListWidgetItem()
-        font = QtGui.QFont()
-        font.setBold(False)
-        font.setItalic(False)
-        font.setUnderline(False)
-        font.setWeight(50)
-        font.setStrikeOut(False)
-        font.setKerning(True)
-        item.setFont(font)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("img/profile_img.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        item.setIcon(icon)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.NoBrush)
-        item.setBackground(brush)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("img/profile_img.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        item.setIcon(icon1)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("img/profile_img.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        item.setIcon(icon2)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("img/profile_img.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        item.setIcon(icon3)
-        self.listWidget.addItem(item)
+
         self.verticalLayout.addWidget(self.listWidget)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
@@ -241,17 +210,15 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "HackerViewer"))
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSortingEnabled(False)
-        item = self.listWidget.item(0)
-        item.setText(_translate("MainWindow", "Sung Kyungmo"))
-        item = self.listWidget.item(1)
-        item.setText(_translate("MainWindow", "Park Minwoo"))
-        item = self.listWidget.item(2)
-        item.setText(_translate("MainWindow", "Choi Jinseok"))
-        item = self.listWidget.item(3)
-        item.setText(_translate("MainWindow", "Kim Heejoong"))
+
+        self.listupdate()
+
+        self.listWidget.itemClicked.connect(self.selectItem)
         self.listWidget.setSortingEnabled(__sortingEnabled)
         self.pushButton_add.setText(_translate("MainWindow", "+"))
+        self.pushButton_add.clicked.connect(adduser.Add_Dialog.widget_show)
         self.pushButton_del.setText(_translate("MainWindow", "-"))
+#        self.pushButton_del.clicked.connect(self.del_user)
         self.label_ip.setText(_translate("MainWindow", "IP"))
         self.label_ip_v.setText(_translate("MainWindow", ""+str(get_ip_address())))
 
@@ -305,4 +272,32 @@ class Ui_MainWindow(object):
 
         self.t_status = thread_status()
         self.t_status.start()
+
+    def selectItem(self,item):
+        _translate = QtCore.QCoreApplication.translate
+        for user in main.users:
+            if(user.id==item.text()):
+                self.label_ip_v.setText(_translate("MainWindow", "" + str(user.ip)))
+                self.label_mac_v.setText(_translate("MainWindow", "" + str(user.mac)))
+                self.label_name_v.setText(_translate("MainWindow", "" + str(user.name)))
+
+
+    def listupdate(self):
+        _translate = QtCore.QCoreApplication.translate
+        i = 0
+        while i < len(main.users):
+            item = QtWidgets.QListWidgetItem()
+            self.listWidget.addItem(item)
+            item = self.listWidget.item(i)
+            item.setText(_translate("MainWindow", main.users[i].id))
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap("img/profile_img.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            item.setIcon(icon)
+            self.listWidget.addItem(item)
+            i += 1
+    #def del_user(self):
+
+
+
+
 

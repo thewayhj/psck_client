@@ -25,7 +25,7 @@ class Communication(object):
 
         data = urllib.request.urlopen(Communication.url+routes, binary_data).read()
 
-        print(data)
+       # print(data)
         #data = urllib.request.urlopen(url, binary_data).read()
 
     @staticmethod
