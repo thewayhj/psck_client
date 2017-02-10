@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtCore import QUrl
 from joinFrame import JoinFrame
 from mongoDao import LoginDao
+from myhttp import Communication
 import webbrowser
 from util import MyYaml
 
@@ -23,6 +24,7 @@ class LoginFrame(object):
         form.show()
 
     def setupUi(self, Form, view):
+
         Form.setObjectName("Form")
         Form.resize(400, 300)
 
@@ -105,8 +107,11 @@ class LoginFrame(object):
 
     def btnOkClicked(self, i):
 
-        if LoginDao.login(self.lineEdit.text(), self.lineEdit_2.text()):
+        my_id = self.lineEdit.text()
+        my_pw = self.lineEdit_2.text()
+        if LoginDao.login(my_id, my_pw):
             self.login_form.hide()
+            Communication.login(my_id)
         else:
             self.showdialog()
 
