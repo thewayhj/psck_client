@@ -29,7 +29,7 @@ booting_t=datetime.datetime.fromtimestamp(psutil.boot_time())
 
 mac_address = []
 ip_address = []
-
+print(psutil.net_if_addrs())
 def get_mac_address(): # Mac Address function
     if platform.system() == "Darwin":
         addrs = psutil.net_if_addrs().get('en0')
@@ -39,9 +39,14 @@ def get_mac_address(): # Mac Address function
         return mac_address
 
     elif platform.system() == "Windows":
-        mac_num = hex(uuid.getnode()).replace('0x', '').upper()
-        mac = '-'.join(mac_num[i: i + 2] for i in range(0, 11, 2))
-        return mac
+        addrs = psutil.net_if_addrs()
+       #a = 0;
+        for i in addrs:
+            for j in addrs[i]:
+                if j.family == -1:  # Mac 주소
+                    mac_address.append(j.address)
+        #a = a+1
+        return mac_address#[a+1]
 
 def get_ip_address(): # IP Address function
     if platform.system() == "Darwin":
@@ -51,10 +56,14 @@ def get_ip_address(): # IP Address function
                 ip_address.append(i.address)
         return ip_address
     elif platform.system() == "Windows":
-        hostname = socket.gethostname()
-        return socket.gethostbyname(hostname)
-
-
+        addrs = psutil.net_if_addrs()
+        #a = 0;
+        for i in addrs:
+            for j in addrs[i]:
+                if j.family == 2:  # IP 주소
+                    ip_address.append(j.address)
+        #a = a + 1
+        return ip_address#[a+1]
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
