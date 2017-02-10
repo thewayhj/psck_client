@@ -3,48 +3,40 @@ import os
 
 import time
 from PyQt5 import QtWidgets
-
-import yaml
 from PyQt5.QtCore import QUrl
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QApplication
 from joinFrame import JoinFrame
 from loginFrame import LoginFrame
 from mainFrame import Ui_MainWindow
-from myhttp import Communication
+from myhttp import Communication, ThreadCommunication
 from util import MyYaml
 
 if __name__ == '__main__':
 
-    #Communication.send2()
-    pid = 1
-    #pid = fork()
-    if pid is 0:
-        while True:
-           #Communication.send2()
-            time.sleep(10)
-    else:
-        app = QApplication(sys.argv)
-        MainWindow = QtWidgets.QMainWindow()
-        ui = Ui_MainWindow()
-        ui.setupUi(MainWindow)
-        MainWindow.show()
+    comm = ThreadCommunication()
+    comm.start()
 
-        view = QWebEngineView(MainWindow)
-        view.load(QUrl('http://'+MyYaml.node_js_host+':'+str(MyYaml.node_js_port)))
-        view.resize(300, 100)
-        view.show()
+    app = QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
 
-        form1 = QtWidgets.QMainWindow()
+    view = QWebEngineView(MainWindow)
+    view.load(QUrl('http://'+MyYaml.node_js_host+':'+str(MyYaml.node_js_port)))
+    view.resize(300, 100)
+    view.show()
+
+    form1 = QtWidgets.QMainWindow()
 
 
-        login = LoginFrame(form1, view)
-        form1.show()
+    login = LoginFrame(form1, view)
+    form1.show()
 
-        JoinFrame.init1()
+    JoinFrame.init1()
 
-
-        sys.exit(app.exec_())
+    sys.exit(app.exec_())
 
 
 
