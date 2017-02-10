@@ -46,7 +46,7 @@ def get_ip_address(): # IP Address function
         addrs = psutil.net_if_addrs().get('en0')
         for i in addrs:
             if i.family == 2:  # IP 주소
-                ip_address.append(addrs.address)
+                ip_address.append(i.address)
         return ip_address
     elif platform.system() == "Windows":
         hostname = socket.gethostname()
