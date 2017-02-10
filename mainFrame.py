@@ -6,24 +6,15 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-import ipaddress
+
 import socket
-import threading
 import datetime
 import time
-import os
 import psutil
 import platform
 import uuid
-import sys
-import ctypes
-from uuid import getnode as get_mac
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThread
-from PyQt5.QtCore import QUrl
-from psutil import virtual_memory
-
-from devicedo import DeviceDo
 
 booting_t=datetime.datetime.fromtimestamp(psutil.boot_time())
 
@@ -73,10 +64,10 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 231, 581))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 240, 551))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
-        self.verticalLayout.setContentsMargins(5, 5, 0, 5)
+        self.verticalLayout.setContentsMargins(5, 5, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.listWidget = QtWidgets.QListWidget(self.verticalLayoutWidget)
         self.listWidget.setMinimumSize(QtCore.QSize(0, 300))
@@ -125,6 +116,17 @@ class Ui_MainWindow(object):
         item.setIcon(icon3)
         self.listWidget.addItem(item)
         self.verticalLayout.addWidget(self.listWidget)
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.pushButton_add = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.pushButton_add.setMinimumSize(QtCore.QSize(0, 40))
+        self.pushButton_add.setObjectName("pushButton_add")
+        self.horizontalLayout_3.addWidget(self.pushButton_add)
+        self.pushButton_del = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.pushButton_del.setMinimumSize(QtCore.QSize(0, 40))
+        self.pushButton_del.setObjectName("pushButton_del")
+        self.horizontalLayout_3.addWidget(self.pushButton_del)
+        self.verticalLayout.addLayout(self.horizontalLayout_3)
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(230, 0, 411, 561))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
@@ -257,7 +259,8 @@ class Ui_MainWindow(object):
         item = self.listWidget.item(3)
         item.setText(_translate("MainWindow", "Kim Heejoong"))
         self.listWidget.setSortingEnabled(__sortingEnabled)
-
+        self.pushButton_add.setText(_translate("MainWindow", "+"))
+        self.pushButton_del.setText(_translate("MainWindow", "-"))
         self.label_ip.setText(_translate("MainWindow", "IP"))
         self.label_ip_v.setText(_translate("MainWindow", ""+str(get_ip_address())))
 
