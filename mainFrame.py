@@ -30,6 +30,7 @@ booting_t=datetime.datetime.fromtimestamp(psutil.boot_time())
 mac_address = []
 ip_address = []
 
+
 def get_mac_address(): # Mac Address function
     if platform.system() == "Darwin":
         addrs = psutil.net_if_addrs().get('en0')
@@ -43,17 +44,17 @@ def get_mac_address(): # Mac Address function
         mac = '-'.join(mac_num[i: i + 2] for i in range(0, 11, 2))
         return mac
 
+
 def get_ip_address(): # IP Address function
     if platform.system() == "Darwin":
         addrs = psutil.net_if_addrs().get('en0')
         for i in addrs:
             if i.family == 2:  # IP 주소
-                ip_address.append(addrs.address)
+                ip_address.append(i.address)
         return ip_address
     elif platform.system() == "Windows":
         hostname = socket.gethostname()
         return socket.gethostbyname(hostname)
-
 
 
 class Ui_MainWindow(object):
