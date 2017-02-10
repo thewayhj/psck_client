@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import pymongo
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QPushButton
@@ -8,7 +9,8 @@ from PyQt5.QtCore import QUrl
 from joinFrame import JoinFrame
 from mongoDao import LoginDao
 from myhttp import Communication
-
+import webbrowser
+from util import MyYaml
 
 class LoginFrame(object):
 
@@ -64,10 +66,20 @@ class LoginFrame(object):
         self.pushButton_signup.setObjectName("pushButton_signup")
         self.pushButton_cancel = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.pushButton_cancel.setObjectName("pushButton_cancel")
+
+
+        self.pushButton_kakao = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.pushButton_kakao.setIcon(QtGui.QIcon('img/kakao_login.png'))
+        self.pushButton_kakao.setIconSize(QtCore.QSize(226, 49))
+        self.pushButton_kakao.setObjectName("pushButton_kakao")
+        self.pushButton_kakao.setFixedWidth(226)
+        self.pushButton_kakao.setFixedHeight(49)
+
         self.horizontalLayout.addWidget(self.pushButton_signin)
         self.horizontalLayout.addWidget(self.pushButton_signup)
         self.horizontalLayout.addWidget(self.pushButton_cancel)
         self.verticalLayout.addLayout(self.horizontalLayout)
+        self.verticalLayout.addWidget(self.pushButton_kakao)
         self.verticalLayoutWidget.raise_()
 
 
@@ -78,6 +90,7 @@ class LoginFrame(object):
         self.pushButton_cancel.clicked.connect(self.btnOkClicked)
         self.pushButton_signin.clicked.connect(self.btnOkClicked)
         self.pushButton_signup.clicked.connect(JoinFrame.widget_show)
+        self.pushButton_kakao.clicked.connect(self.btnKaKaoClicked)
 
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -101,6 +114,11 @@ class LoginFrame(object):
             Communication.login(my_id)
         else:
             self.showdialog()
+
+    def btnKaKaoClicked(self):
+
+        #webbrowser.open('http://'+MyYaml.node_js_host+':'+str(MyYaml.node_js_port))
+        webbrowser.open('https://accounts.kakao.com/login?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fredirect_uri%3Dkakaojs%26response_type%3Dcode%26state%3Dufa89hrnbheqsau6u92cpu8fr%26client_id%3D3dee48e4ccc6b7755390974f30a54832')
 
     def showdialog(self):
         d = QDialog()
