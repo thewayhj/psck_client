@@ -16,6 +16,10 @@ import uuid
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThread
 
+from deviceinfoThread import DeviceInfoThread
+from model.device import DeviceInfo
+from myhttp import ThreadFriendInfoCommunication
+
 booting_t=datetime.datetime.fromtimestamp(psutil.boot_time())
 
 mac_address = []
@@ -49,8 +53,16 @@ def get_ip_address(): # IP Address function
 
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
 
+    friends = []
+
+    def __init__(self, mainwindow):
+        super().__init__()
+        self.setupUi(mainwindow)
+        self.t_status = thread_status(self)
+        self.t_status.start()
+
+    def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(634, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -76,37 +88,7 @@ class Ui_MainWindow(object):
         self.listWidget.setWordWrap(False)
         self.listWidget.setSelectionRectVisible(False)
         self.listWidget.setObjectName("listWidget")
-        item = QtWidgets.QListWidgetItem()
-        font = QtGui.QFont()
-        font.setBold(False)
-        font.setItalic(False)
-        font.setUnderline(False)
-        font.setWeight(50)
-        font.setStrikeOut(False)
-        font.setKerning(True)
-        item.setFont(font)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("img/profile_img.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        item.setIcon(icon)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.NoBrush)
-        item.setBackground(brush)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("img/profile_img.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        item.setIcon(icon1)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("img/profile_img.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        item.setIcon(icon2)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("img/profile_img.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        item.setIcon(icon3)
-        self.listWidget.addItem(item)
+
         self.verticalLayout.addWidget(self.listWidget)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
@@ -236,74 +218,105 @@ class Ui_MainWindow(object):
         
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-    
+
+        self.listWidget.itemClicked.connect(self.friend_list_click_event)
+
+    def set_text(self, device_info):
+        _translate = QtCore.QCoreApplication.translate
+        self.label_ip_v.setText(_translate("MainWindow", device_info.d_ip))
+        self.label_mac_v.setText(_translate("MainWindow", device_info.d_mac))
+        self.label_name_v.setText(_translate("MainWindow", device_info.d_name))
+        self.label_booting_v.setText(_translate("MainWindow", str(device_info.d_boot_t)))
+        self.label_cpu_v.setText(_translate("MainWindow", "percent : " + str(device_info.d_cpu_per) + "%"))
+        self.label_ram_v.setText(_translate("MainWindow", "total : " + str(round(device_info.d_mem_total / 1024 / 1024)) + "MB  available : " + str(round(device_info.d_mem_avail / 1024 / 1024)) + "MB  \npercent : " + str(device_info.d_mem_per) + "%"))
+
+
+        usage_time = datetime.datetime.now() - device_info.d_boot_t
+        usage_ts = usage_time.total_seconds()
+        usage_h = int(usage_ts / 3600)
+        usage_m = int((usage_ts - (usage_h * 3600)) / 60)
+        usage_s = int(usage_ts - (usage_h * 3600) - (usage_m * 60))
+
+        self.label_usage_v.setText(_translate("MainWindow", str(usage_h) + "시간 " + str(usage_m) + "분 " + str(usage_s) + "초"))
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "HackerViewer"))
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSortingEnabled(False)
-        item = self.listWidget.item(0)
-        item.setText(_translate("MainWindow", "Sung Kyungmo"))
-        item = self.listWidget.item(1)
-        item.setText(_translate("MainWindow", "Park Minwoo"))
-        item = self.listWidget.item(2)
-        item.setText(_translate("MainWindow", "Choi Jinseok"))
-        item = self.listWidget.item(3)
-        item.setText(_translate("MainWindow", "Kim Heejoong"))
+
+        DeviceInfoThread.friend_device_info.append(DeviceInfo('Sung Kyungmo', 'sung'))
+        DeviceInfoThread.friend_device_info.append(DeviceInfo('Park Minwoo', 'pmw9027'))
+        DeviceInfoThread.friend_device_info.append(DeviceInfo('Choi Jinseok', 'sung'))
+        DeviceInfoThread.friend_device_info.append(DeviceInfo('Kim Heejoong', 'theway'))
+
+        self.listwidget_item()
+
         self.listWidget.setSortingEnabled(__sortingEnabled)
         self.pushButton_add.setText(_translate("MainWindow", "+"))
         self.pushButton_del.setText(_translate("MainWindow", "-"))
         self.label_ip.setText(_translate("MainWindow", "IP"))
-        self.label_ip_v.setText(_translate("MainWindow", ""+str(get_ip_address())))
-
         self.label_mac.setText(_translate("MainWindow", "MAC"))
-        self.label_mac_v.setText(_translate("MainWindow", ""+str(get_mac_address())))
-
         self.label_name.setText(_translate("MainWindow", "NAME"))
-        self.label_name_v.setText(_translate("MainWindow", ""+socket.gethostname()))
-
         self.label_cpu.setText(_translate("MainWindow", "CPU"))
-        label_cpu_v_t=self.label_cpu_v
-
         self.label_ram.setText(_translate("MainWindow", "RAM"))
-        label_ram_v_t=self.label_ram_v
-
         self.label_usage.setText(_translate("MainWindow", "Usage Time"))
-        label_usage_v_t=self.label_usage_v
-
         self.label_booting.setText(_translate("MainWindow", "Booting Time"))
-        self.label_booting_v.setText(_translate("MainWindow", ""+datetime.datetime.fromtimestamp(psutil.boot_time()).strftime("%Y-%m-%d %H:%M:%S")))
-
         self.menuSetting.setTitle(_translate("MainWindow", "Setting"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionsetting.setText(_translate("MainWindow", "setting"))
         self.actionhelp.setText(_translate("MainWindow", "help"))
 
-        class thread_status(QThread):
-            def __init__(self):
-                QThread.__init__(self)
+    def listwidget_item(self):
 
-            def __del__(self):
-                self.wait()
-            def run(self):
-                while (True):
-                    label_cpu_v_t.setText(_translate("MainWindow", "percent : " + str(psutil.cpu_percent()) + "%"))
-                    label_ram_v_t.setText(_translate("MainWindow", "total : " + str(
-                        round(psutil.virtual_memory().total / 1024 / 1024)) + "MB  available : " + str(
-                        round(psutil.virtual_memory().available / 1024 / 1024)) + "MB  \npercent : " + str(
-                        psutil.virtual_memory().percent) + "%"))  # i.totalRam
-                    usage_time = datetime.datetime.now() - booting_t
 
-                    usage_ts = usage_time.total_seconds()
-                    usage_h = int(usage_ts / 3600)
-                    usage_m = int((usage_ts - (usage_h * 3600)) / 60)
-                    usage_s = int(usage_ts - (usage_h * 3600) - (usage_m * 60))
+        _translate = QtCore.QCoreApplication.translate
 
-                    label_usage_v_t.setText(
-                        _translate("MainWindow", str(usage_h) + "시간 " + str(usage_m) + "분 " + str(usage_s) + "초"))
+        font = QtGui.QFont()
+        font.setBold(False)
+        font.setItalic(False)
+        font.setUnderline(False)
+        font.setWeight(50)
+        font.setStrikeOut(False)
+        font.setKerning(True)
 
-                    time.sleep(1)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("img/profile_img.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
 
-        self.t_status = thread_status()
-        self.t_status.start()
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
+        brush.setStyle(QtCore.Qt.NoBrush)
+        self.listWidget.clear()
+
+        for index, i in enumerate(DeviceInfoThread.friend_device_info):
+            listitem = QtWidgets.QListWidgetItem()
+            listitem.setFont(font)
+            listitem.setIcon(icon)
+            listitem.setBackground(brush)
+
+            self.listWidget.addItem(listitem)
+            item = self.listWidget.item(index)
+            if index is 0:
+                item.setText(_translate("MainWindow", "( me )"))
+            else:
+                item.setText(_translate("MainWindow", i.name))
+    def friend_list_click_event(self):
+        for x in self.listWidget.selectedIndexes():
+            ThreadFriendInfoCommunication.u_id = DeviceInfoThread.friend_device_info[x.row()].u_id
+            thread_status.selected = x.row()
+
+class thread_status(QThread):
+
+    selected = 0
+    def __init__(self, main_frame):
+        QThread.__init__(self)
+        self.main_frame = main_frame
+
+    def __del__(self):
+        self.wait()
+
+    def run(self):
+        while True:
+            self.main_frame.set_text(DeviceInfoThread.friend_device_info[thread_status.selected])
+            time.sleep(1)
+
 

@@ -1,10 +1,27 @@
+import platform
+import socket
+import uuid
+
+import datetime
+import psutil
+
+from model.friend import Friend
 
 
-class DeviceDo(object):
-    def __init__(self, d_name, d_p_addr, d_a_time, d_c_u_time):
-        super.__init__()
-        self.d_name = d_name
-        self.d_addr = d_addr
-        self.d_a_time = d_a_time
-        self.d_c_u_time = d_c_u_time
+class DeviceInfo(Friend):
+
+    def __init__(self, name, u_id):
+        self.d_boot_t = None
+        self.d_name = None
+        self.d_ip = None
+        self.d_mac = None
+        self.d_cpu_per = None
+        self.d_mem_total = None
+        self.d_mem_avail = None
+        self.d_mem_per = None
+        super().__init__(name, u_id)
+
+    def __setattr__(self, *args, **kwargs):
+        return super().__setattr__(*args, **kwargs)
+
 

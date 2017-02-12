@@ -1,32 +1,43 @@
-import json
 import urllib.request
 import urllib.parse
-
 import time
-
-import psutil
 from PyQt5.QtCore import QThread
 
+from deviceinfoThread import DeviceInfoThread
+from model.device import DeviceInfo
+from model.user import User
 from util import MyYaml
 
 
 class Communication(object):
 
-    url = "http://" + MyYaml.node_js_host + ":" + str(MyYaml.node_js_port)
-    #url = "http://127.0.0.1:3000"
+    #url = "http://" + MyYaml.node_js_host + ":" + str(MyYaml.node_js_port)
+    url = "http://127.0.0.1:3000"
+
+    info = DeviceInfo('1', '1')
 
     @staticmethod
     def send():
         routes = "/device/info"
-        params = urllib.parse.urlencode({
-            'ip': psutil.net_if_addrs()
-        })
+        params = urllib.parse.urlencode(DeviceInfoThread.friend_device_info[0].__dict__)
         binary_data = params.encode()
 
         data = urllib.request.urlopen(Communication.url+routes, binary_data).read()
 
-        print(data)
+        #print(data)
         #data = urllib.request.urlopen(url, binary_data).read()
+
+    @staticmethod
+    def send2(u_id):
+        routes = "/friend/info"
+        params = urllib.parse.urlencode({
+            'u_id': u_id
+        })
+        binary_data = params.encode()
+
+        data = urllib.request.urlopen(Communication.url + routes, binary_data).read()
+
+        print(data)
 
     @staticmethod
     def login(my_id):
@@ -72,6 +83,25 @@ class ThreadCommunication(QThread):
 
     def run(self):
         while True:
-            print('hello')
-            Communication.send()
-            time.sleep(1)
+            if User.is_login():
+                Communication.send()
+                time.sleep(1)
+
+
+class ThreadFriendInfoCommunication(QThread):
+
+    u_id = 0
+
+    def __init__(self):
+        QThread.__init__(self)
+
+    def __del__(self):
+        self.wait()
+
+    def run(self):
+        while True:
+            if ThreadFriendInfoCommunication.u_id is 0:
+                continue
+            else:
+                Communication.send2(ThreadFriendInfoCommunication.u_id)
+                time.sleep(1)

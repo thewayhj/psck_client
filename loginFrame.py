@@ -7,10 +7,12 @@ from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtCore import QUrl
 from joinFrame import JoinFrame
+from model.user import User
 from mongoDao import LoginDao
 from myhttp import Communication
 import webbrowser
 from util import MyYaml
+
 
 class LoginFrame(object):
 
@@ -112,6 +114,8 @@ class LoginFrame(object):
         if LoginDao.login(my_id, my_pw):
             self.login_form.hide()
             Communication.login(my_id)
+            User.u_id = my_id
+
         else:
             self.showdialog()
 
