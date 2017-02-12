@@ -5,7 +5,7 @@ import uuid
 import datetime
 import psutil
 
-from model.friend import Friend
+from model.Friend import Friend
 
 
 class DeviceInfo(Friend):
