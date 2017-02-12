@@ -13,8 +13,8 @@ from loginFrame import LoginFrame
 from mainFrame import Ui_MainWindow
 from model.device import DeviceInfo
 from myhttp import ThreadCommunication, ThreadFriendInfoCommunication
-from util import MyYaml
-
+from myhttp import Communication, ThreadCommunication
+import  adduser
 
 if __name__ == '__main__':
 
@@ -31,19 +31,17 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-
-    ui = Ui_MainWindow(MainWindow)
+    main_ui = Ui_MainWindow(MainWindow)
     MainWindow.show()
 
-    view = QWebEngineView(MainWindow)
-    form1 = QtWidgets.QMainWindow()
-    login = LoginFrame(form1, view)
+    adduser.AddDialog.init(main_ui)
 
-    form1.show()
+    LoginFrame.init()
 
-    JoinFrame.init1()
+    JoinFrame.init()
 
     sys.exit(app.exec_())
+
 
 
 

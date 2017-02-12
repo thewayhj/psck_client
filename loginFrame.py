@@ -16,115 +16,111 @@ from util import MyYaml
 
 class LoginFrame(object):
 
-    login_form = 1
+    @staticmethod
+    def init():
+        LoginFrame.qwidget = QtWidgets.QWidget()
+        LoginFrame.setup_ui()
+        LoginFrame.retranslateUi()
+        LoginFrame.qwidget.show()
 
-    def __init__(self, form, view):
-        super().__init__()
+    @staticmethod
+    def setup_ui():
 
-        self.login_form = form
-        self.setupUi(form, view)
-        form.show()
+        LoginFrame.qwidget.setObjectName("Form")
+        LoginFrame.qwidget.resize(400, 300)
 
-    def setupUi(self, Form, view):
+        LoginFrame.verticalLayoutWidget = QtWidgets.QWidget(LoginFrame.qwidget)
+        LoginFrame.verticalLayoutWidget.setGeometry(QtCore.QRect(50, 60, 345, 151))
+        LoginFrame.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        LoginFrame.verticalLayout = QtWidgets.QVBoxLayout(LoginFrame.verticalLayoutWidget)
+        LoginFrame.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        LoginFrame.verticalLayout.setObjectName("verticalLayout")
+        LoginFrame.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        LoginFrame.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        LoginFrame.verticalLayout_4 = QtWidgets.QVBoxLayout()
+        LoginFrame.verticalLayout_4.setObjectName("verticalLayout_4")
+        LoginFrame.label = QtWidgets.QLabel(LoginFrame.verticalLayoutWidget)
+        LoginFrame.label.setObjectName("label")
+        LoginFrame.verticalLayout_4.addWidget(LoginFrame.label)
+        LoginFrame.label_2 = QtWidgets.QLabel(LoginFrame.verticalLayoutWidget)
+        LoginFrame.label_2.setObjectName("label_2")
+        LoginFrame.verticalLayout_4.addWidget(LoginFrame.label_2)
+        LoginFrame.horizontalLayout_3.addLayout(LoginFrame.verticalLayout_4)
+        LoginFrame.verticalLayout_5 = QtWidgets.QVBoxLayout()
+        LoginFrame.verticalLayout_5.setObjectName("verticalLayout_5")
+        LoginFrame.lineEdit = QtWidgets.QLineEdit(LoginFrame.verticalLayoutWidget)
+        LoginFrame.lineEdit.setObjectName("lineEdit")
+        LoginFrame.verticalLayout_5.addWidget(LoginFrame.lineEdit)
+        LoginFrame.lineEdit_2 = QtWidgets.QLineEdit(LoginFrame.verticalLayoutWidget)
+        LoginFrame.lineEdit_2.setObjectName("lineEdit_2")
+        LoginFrame.verticalLayout_5.addWidget(LoginFrame.lineEdit_2)
+        LoginFrame.horizontalLayout_3.addLayout(LoginFrame.verticalLayout_5)
+        LoginFrame.verticalLayout.addLayout(LoginFrame.horizontalLayout_3)
 
-        Form.setObjectName("Form")
-        Form.resize(400, 300)
+        LoginFrame.horizontalLayout = QtWidgets.QHBoxLayout()
+        LoginFrame.horizontalLayout.setObjectName("horizontalLayout")
+        LoginFrame.pushButton_signin = QtWidgets.QPushButton(LoginFrame.verticalLayoutWidget)
+        LoginFrame.pushButton_signin.setObjectName("pushButton_signin")
+        LoginFrame.pushButton_signup = QtWidgets.QPushButton(LoginFrame.verticalLayoutWidget)
+        LoginFrame.pushButton_signup.setObjectName("pushButton_signup")
+        LoginFrame.pushButton_cancel = QtWidgets.QPushButton(LoginFrame.verticalLayoutWidget)
+        LoginFrame.pushButton_cancel.setObjectName("pushButton_cancel")
 
-        self.verticalLayoutWidget = QtWidgets.QWidget(Form)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(50, 60, 345, 151))
-        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.label = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.label.setObjectName("label")
-        self.verticalLayout_4.addWidget(self.label)
-        self.label_2 = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.label_2.setObjectName("label_2")
-        self.verticalLayout_4.addWidget(self.label_2)
-        self.horizontalLayout_3.addLayout(self.verticalLayout_4)
-        self.verticalLayout_5 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.lineEdit = QtWidgets.QLineEdit(self.verticalLayoutWidget)
-        self.lineEdit.setObjectName("lineEdit")
-        self.verticalLayout_5.addWidget(self.lineEdit)
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.verticalLayoutWidget)
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.verticalLayout_5.addWidget(self.lineEdit_2)
-        self.horizontalLayout_3.addLayout(self.verticalLayout_5)
-        self.verticalLayout.addLayout(self.horizontalLayout_3)
+        LoginFrame.pushButton_kakao = QtWidgets.QPushButton(LoginFrame.verticalLayoutWidget)
+        LoginFrame.pushButton_kakao.setIcon(QtGui.QIcon('img/kakao_login.png'))
+        LoginFrame.pushButton_kakao.setIconSize(QtCore.QSize(226, 49))
+        LoginFrame.pushButton_kakao.setObjectName("pushButton_kakao")
+        LoginFrame.pushButton_kakao.setFixedWidth(226)
+        LoginFrame.pushButton_kakao.setFixedHeight(49)
 
-        self.verticalLayout.addWidget(view)
+        LoginFrame.horizontalLayout.addWidget(LoginFrame.pushButton_signin)
+        LoginFrame.horizontalLayout.addWidget(LoginFrame.pushButton_signup)
+        LoginFrame.horizontalLayout.addWidget(LoginFrame.pushButton_cancel)
+        LoginFrame.verticalLayout.addLayout(LoginFrame.horizontalLayout)
+        LoginFrame.verticalLayout.addWidget(LoginFrame.pushButton_kakao)
+        LoginFrame.verticalLayoutWidget.raise_()
 
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.pushButton_signin = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton_signin.setObjectName("pushButton_signin")
-        self.pushButton_signup = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton_signup.setObjectName("pushButton_signup")
-        self.pushButton_cancel = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton_cancel.setObjectName("pushButton_cancel")
+        LoginFrame.pushButton_cancel.clicked.connect(LoginFrame.btnOkClicked)
+        LoginFrame.pushButton_signin.clicked.connect(LoginFrame.btnOkClicked)
+        LoginFrame.pushButton_signup.clicked.connect(JoinFrame.widget_show)
+        LoginFrame.pushButton_kakao.clicked.connect(LoginFrame.btnKaKaoClicked)
 
-
-        self.pushButton_kakao = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton_kakao.setIcon(QtGui.QIcon('img/kakao_login.png'))
-        self.pushButton_kakao.setIconSize(QtCore.QSize(226, 49))
-        self.pushButton_kakao.setObjectName("pushButton_kakao")
-        self.pushButton_kakao.setFixedWidth(226)
-        self.pushButton_kakao.setFixedHeight(49)
-
-        self.horizontalLayout.addWidget(self.pushButton_signin)
-        self.horizontalLayout.addWidget(self.pushButton_signup)
-        self.horizontalLayout.addWidget(self.pushButton_cancel)
-        self.verticalLayout.addLayout(self.horizontalLayout)
-        self.verticalLayout.addWidget(self.pushButton_kakao)
-        self.verticalLayoutWidget.raise_()
+        QtCore.QMetaObject.connectSlotsByName(LoginFrame.qwidget)
 
 
-
-        self.retranslateUi(Form)
-
-
-        self.pushButton_cancel.clicked.connect(self.btnOkClicked)
-        self.pushButton_signin.clicked.connect(self.btnOkClicked)
-        self.pushButton_signup.clicked.connect(JoinFrame.widget_show)
-        self.pushButton_kakao.clicked.connect(self.btnKaKaoClicked)
-
-        QtCore.QMetaObject.connectSlotsByName(Form)
-
-    def retranslateUi(self, Form):
+    @staticmethod
+    def retranslateUi():
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        LoginFrame.qwidget.setWindowTitle(_translate("Form", "Form"))
 
-        self.label.setText(_translate("Form", "ID"))
-        self.label_2.setText(_translate("Form", "PW"))
+        LoginFrame.label.setText(_translate("Form", "ID"))
+        LoginFrame.label_2.setText(_translate("Form", "PW"))
 
-        self.pushButton_cancel.setText(_translate("Form", "Cancel"))
-        self.pushButton_signin.setText(_translate("Form", "Sign in"))
-        self.pushButton_signup.setText(_translate("Form", "Sign up"))
+        LoginFrame.pushButton_cancel.setText(_translate("Form", "Cancel"))
+        LoginFrame.pushButton_signin.setText(_translate("Form", "Sign in"))
+        LoginFrame.pushButton_signup.setText(_translate("Form", "Sign up"))
 
-    def btnOkClicked(self, i):
+    @staticmethod
+    def btnOkClicked(i):
 
-        my_id = self.lineEdit.text()
-        my_pw = self.lineEdit_2.text()
+        my_id = LoginFrame.lineEdit.text()
+        my_pw = LoginFrame.lineEdit_2.text()
         if LoginDao.login(my_id, my_pw):
-            self.login_form.hide()
+            LoginFrame.qwidget.hide()
             Communication.login(my_id)
             User.u_id = my_id
 
         else:
-            self.showdialog()
+            LoginFrame.showdialog()
 
-    def btnKaKaoClicked(self):
+    @staticmethod
+    def btnKaKaoClicked():
 
         #webbrowser.open('http://'+MyYaml.node_js_host+':'+str(MyYaml.node_js_port))
         webbrowser.open('https://accounts.kakao.com/login?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fredirect_uri%3Dkakaojs%26response_type%3Dcode%26state%3Dufa89hrnbheqsau6u92cpu8fr%26client_id%3D3dee48e4ccc6b7755390974f30a54832')
 
-    def showdialog(self):
+    @staticmethod
+    def showdialog():
         d = QDialog()
         b1 = QPushButton("Ok", d)
         b1.move(50, 50)

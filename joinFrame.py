@@ -31,7 +31,7 @@ class JoinFrame(object):
     pushButton_2 = None
 
     @staticmethod
-    def init1():
+    def init():
         JoinFrame.qwidget = QtWidgets.QWidget()
         JoinFrame.verticalLayoutWidget = QtWidgets.QWidget(JoinFrame.qwidget)
         JoinFrame.verticalLayout = QtWidgets.QVBoxLayout(JoinFrame.verticalLayoutWidget)

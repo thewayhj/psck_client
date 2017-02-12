@@ -6,7 +6,6 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-
 import socket
 import datetime
 import time
@@ -15,12 +14,12 @@ import platform
 import uuid
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThread
-
+import adduser
 from deviceinfoThread import DeviceInfoThread
 from model.device import DeviceInfo
 from myhttp import ThreadFriendInfoCommunication
 
-booting_t=datetime.datetime.fromtimestamp(psutil.boot_time())
+booting_t = datetime.datetime.fromtimestamp(psutil.boot_time())
 
 mac_address = []
 ip_address = []
@@ -223,21 +222,25 @@ class Ui_MainWindow(object):
 
     def set_text(self, device_info):
         _translate = QtCore.QCoreApplication.translate
-        self.label_ip_v.setText(_translate("MainWindow", device_info.d_ip))
-        self.label_mac_v.setText(_translate("MainWindow", device_info.d_mac))
-        self.label_name_v.setText(_translate("MainWindow", device_info.d_name))
-        self.label_booting_v.setText(_translate("MainWindow", str(device_info.d_boot_t)))
-        self.label_cpu_v.setText(_translate("MainWindow", "percent : " + str(device_info.d_cpu_per) + "%"))
-        self.label_ram_v.setText(_translate("MainWindow", "total : " + str(round(device_info.d_mem_total / 1024 / 1024)) + "MB  available : " + str(round(device_info.d_mem_avail / 1024 / 1024)) + "MB  \npercent : " + str(device_info.d_mem_per) + "%"))
 
+        try:
+            self.label_ip_v.setText(_translate("MainWindow", device_info.d_ip))
+            self.label_mac_v.setText(_translate("MainWindow", device_info.d_mac))
+            self.label_name_v.setText(_translate("MainWindow", device_info.d_name))
+            self.label_booting_v.setText(_translate("MainWindow", str(device_info.d_boot_t)))
+            self.label_cpu_v.setText(_translate("MainWindow", "percent : " + str(device_info.d_cpu_per) + "%"))
+            self.label_ram_v.setText(_translate("MainWindow", "total : " + str(round(device_info.d_mem_total / 1024 / 1024)) + "MB  available : " + str(round(device_info.d_mem_avail / 1024 / 1024)) + "MB  \npercent : " + str(device_info.d_mem_per) + "%"))
 
-        usage_time = datetime.datetime.now() - device_info.d_boot_t
-        usage_ts = usage_time.total_seconds()
-        usage_h = int(usage_ts / 3600)
-        usage_m = int((usage_ts - (usage_h * 3600)) / 60)
-        usage_s = int(usage_ts - (usage_h * 3600) - (usage_m * 60))
+            usage_time = datetime.datetime.now() - device_info.d_boot_t
+            usage_ts = usage_time.total_seconds()
+            usage_h = int(usage_ts / 3600)
+            usage_m = int((usage_ts - (usage_h * 3600)) / 60)
+            usage_s = int(usage_ts - (usage_h * 3600) - (usage_m * 60))
 
-        self.label_usage_v.setText(_translate("MainWindow", str(usage_h) + "시간 " + str(usage_m) + "분 " + str(usage_s) + "초"))
+            self.label_usage_v.setText(_translate("MainWindow", str(usage_h) + "시간 " + str(usage_m) + "분 " + str(usage_s) + "초"))
+        except Exception as e:
+            print(e)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -252,9 +255,13 @@ class Ui_MainWindow(object):
 
         self.listwidget_item()
 
+        #self.listWidget.itemClicked.connect(self.selectItem)
+
         self.listWidget.setSortingEnabled(__sortingEnabled)
         self.pushButton_add.setText(_translate("MainWindow", "+"))
+        self.pushButton_add.clicked.connect(adduser.AddDialog.widget_show)
         self.pushButton_del.setText(_translate("MainWindow", "-"))
+#        self.pushButton_del.clicked.connect(self.del_user)
         self.label_ip.setText(_translate("MainWindow", "IP"))
         self.label_mac.setText(_translate("MainWindow", "MAC"))
         self.label_name.setText(_translate("MainWindow", "NAME"))
@@ -268,7 +275,6 @@ class Ui_MainWindow(object):
         self.actionhelp.setText(_translate("MainWindow", "help"))
 
     def listwidget_item(self):
-
 
         _translate = QtCore.QCoreApplication.translate
 
@@ -299,6 +305,7 @@ class Ui_MainWindow(object):
                 item.setText(_translate("MainWindow", "( me )"))
             else:
                 item.setText(_translate("MainWindow", i.name))
+
     def friend_list_click_event(self):
         for x in self.listWidget.selectedIndexes():
             ThreadFriendInfoCommunication.u_id = DeviceInfoThread.friend_device_info[x.row()].u_id
@@ -318,5 +325,10 @@ class thread_status(QThread):
         while True:
             self.main_frame.set_text(DeviceInfoThread.friend_device_info[thread_status.selected])
             time.sleep(1)
+
+    #def del_user(self):
+
+
+
 
 

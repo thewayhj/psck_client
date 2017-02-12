@@ -22,7 +22,11 @@ class Communication(object):
         params = urllib.parse.urlencode(DeviceInfoThread.friend_device_info[0].__dict__)
         binary_data = params.encode()
 
-        data = urllib.request.urlopen(Communication.url+routes, binary_data).read()
+        try:
+            data = urllib.request.urlopen(Communication.url+routes, binary_data).read()
+        except Exception as e:
+            print(e)
+
 
         #print(data)
         #data = urllib.request.urlopen(url, binary_data).read()
@@ -34,10 +38,10 @@ class Communication(object):
             'u_id': u_id
         })
         binary_data = params.encode()
-
-        data = urllib.request.urlopen(Communication.url + routes, binary_data).read()
-
-        print(data)
+        try:
+            data = urllib.request.urlopen(Communication.url + routes, binary_data).read()
+        except Exception as e:
+            print(e)
 
     @staticmethod
     def login(my_id):
@@ -46,8 +50,11 @@ class Communication(object):
             'id': my_id
         })
         binary_data = params.encode()
-        data = urllib.request.urlopen(Communication.url+routes, binary_data).read()
-        print(data)
+        try:
+            data = urllib.request.urlopen(Communication.url+routes, binary_data).read()
+        except Exception as e:
+            print(e)
+
 
 
 class FriendCommunication(object):
