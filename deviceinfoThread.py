@@ -20,7 +20,6 @@ class DeviceInfoThread(QThread):
         setattr(self.friend_device_info[0], 'd_boot_t', self.get_my_booting_time())
         setattr(self.friend_device_info[0], 'd_name', socket.gethostname())
 
-
     def __del__(self):
         self.wait()
 

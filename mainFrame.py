@@ -311,9 +311,11 @@ class Ui_MainWindow(object):
             ThreadFriendInfoCommunication.u_id = DeviceInfoThread.friend_device_info[x.row()].u_id
             thread_status.selected = x.row()
 
+
 class thread_status(QThread):
 
     selected = 0
+
     def __init__(self, main_frame):
         QThread.__init__(self)
         self.main_frame = main_frame
