@@ -8,3 +8,4 @@ ui/test.py
 setting.yaml
 testmain.py
 *.pyc
+model/__pycache__/
