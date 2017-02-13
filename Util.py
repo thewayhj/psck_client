@@ -19,7 +19,7 @@ def load_config(name='config'):
 
 class MyYaml(object):
 
-    stream = open("setting.yaml", 'r')
+    stream = open("Setting.yaml", 'r')
     setting = yaml.load(stream)
     node_js_host = setting['node.js_server']['host']
     node_js_port = setting['node.js_server']['port']

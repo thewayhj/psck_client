@@ -3,10 +3,10 @@ import urllib.parse
 import time
 from PyQt5.QtCore import QThread
 
-from deviceinfoThread import DeviceInfoThread
-from model.device import DeviceInfo
-from model.user import User
-from util import MyYaml
+from DeviceinfoThread import DeviceInfoThread
+from model.Device import DeviceInfo
+from model.User import User
+from Util import MyYaml
 
 
 class Communication(object):
