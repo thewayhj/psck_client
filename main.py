@@ -1,5 +1,5 @@
 import sys
-from os import fork
+#from os import fork
 
 import time
 from PyQt5 import QtWidgets

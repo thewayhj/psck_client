@@ -13,14 +13,15 @@ import time
 import psutil
 import platform
 import uuid
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThread
-
 booting_t=datetime.datetime.fromtimestamp(psutil.boot_time())
-
 mac_address = []
 ip_address = []
+
 print(psutil.net_if_addrs())
+#print(psutil.net_connections(kind='tcp'))
 def get_mac_address(): # Mac Address function
     if platform.system() == "Darwin":
         addrs = psutil.net_if_addrs().get('en0')
@@ -30,14 +31,13 @@ def get_mac_address(): # Mac Address function
         return mac_address
 
     elif platform.system() == "Windows":
-        addrs = psutil.net_if_addrs()
-       #a = 0;
+        #print()
+        addrs = psutil.net_if_addrs().get('Wi-Fi')
         for i in addrs:
-            for j in addrs[i]:
-                if j.family == -1:  # Mac 주소
-                    mac_address.append(j.address)
-        #a = a+1
-        return mac_address#[a+1]
+#            for j in addrs[i]:
+                if i.family == -1:  # Mac 주소
+                    mac_address.append(i.address)
+        return mac_address
 
 def get_ip_address(): # IP Address function
     if platform.system() == "Darwin":
@@ -46,15 +46,15 @@ def get_ip_address(): # IP Address function
             if i.family == 2:  # IP 주소
                 ip_address.append(i.address)
         return ip_address
-    elif platform.system() == "Windows":
-        addrs = psutil.net_if_addrs()
-        #a = 0;
-        for i in addrs:
-            for j in addrs[i]:
-                if j.family == 2:  # IP 주소
-                    ip_address.append(j.address)
-        #a = a + 1
-        return ip_address#[a+1]
+    # elif platform.system() == "Windows":
+    #      addrs = psutil.net_if_addrs().get('')
+    #      for i in addrs:for j in addrs[i]:
+    #              if j.family == 2:  # IP 주소
+    #                  ip_address.append(j.address)
+    #          if socket.gethostbyname(socket.gethostname()) == ip_address
+    #              break;
+    #          else
+    #      return ip_address#[a+1]
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
