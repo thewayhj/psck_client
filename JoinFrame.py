@@ -11,7 +11,7 @@ import pymongo
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication
 
-from mongoDao import JoinDao
+from MongoDao import JoinDao
 
 
 class JoinFrame(object):

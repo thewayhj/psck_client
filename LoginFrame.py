@@ -6,12 +6,12 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtCore import QUrl
-from joinFrame import JoinFrame
-from model.user import User
-from mongoDao import LoginDao
-from myhttp import Communication
+from JoinFrame import JoinFrame
+from model.User import User
+from MongoDao import LoginDao
+from Myhttp import Communication
 import webbrowser
-from util import MyYaml
+from Util import MyYaml
 
 
 class LoginFrame(object):

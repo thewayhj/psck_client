@@ -6,7 +6,7 @@ import datetime
 import psutil
 import time
 from PyQt5.QtCore import QThread
-from model.device import DeviceInfo
+from model.Device import DeviceInfo
 
 
 class DeviceInfoThread(QThread):

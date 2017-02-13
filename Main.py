@@ -7,14 +7,14 @@ from PyQt5.QtCore import QUrl
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QApplication
 
-from deviceinfoThread import DeviceInfoThread
-from joinFrame import JoinFrame
-from loginFrame import LoginFrame
-from mainFrame import Ui_MainWindow
-from model.device import DeviceInfo
-from myhttp import ThreadCommunication, ThreadFriendInfoCommunication
-from myhttp import Communication, ThreadCommunication
-import  adduser
+from DeviceinfoThread import DeviceInfoThread
+from JoinFrame import JoinFrame
+from LoginFrame import LoginFrame
+from MainFrame import Ui_MainWindow
+from model.Device import DeviceInfo
+from Myhttp import ThreadCommunication, ThreadFriendInfoCommunication
+from Myhttp import Communication, ThreadCommunication
+import  AddFriendDialog
 
 if __name__ == '__main__':
 
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     main_ui = Ui_MainWindow(MainWindow)
     MainWindow.show()
 
-    adduser.AddDialog.init(main_ui)
+    AddFriendDialog.AddFriendDialog.init(main_ui)
 
     LoginFrame.init()
 
