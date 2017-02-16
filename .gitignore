@@ -1,10 +1,9 @@
 .idea/
 workspace.xml
-__pycache__/loginFrame.cpython-35.pyc
-__pycache__/joinFrame.cpython-35.pyc
-__pycache__/main.cpython-35.pyc
+__pycache__/
 ui/form.ui.autosave
 ui/test.py
 setting.yaml
 testmain.py
 *.pyc
+model/__pycache__/

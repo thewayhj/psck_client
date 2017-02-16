@@ -1,5 +1,5 @@
 import sys
-from os import fork
+#from os import fork
 
 import time
 from PyQt5 import QtWidgets
@@ -15,6 +15,7 @@ from model.Device import DeviceInfo
 from Myhttp import ThreadCommunication, ThreadFriendInfoCommunication
 from Myhttp import Communication, ThreadCommunication
 import  AddFriendDialog
+from webChatFrame import WebChatFrame
 
 if __name__ == '__main__':
 
@@ -39,6 +40,8 @@ if __name__ == '__main__':
     LoginFrame.init()
 
     JoinFrame.init()
+
+    WebChatFrame.init()
 
     sys.exit(app.exec_())
 

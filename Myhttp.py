@@ -56,18 +56,17 @@ class Communication(object):
             print(e)
 
 
-
 class FriendCommunication(object):
 
     url = "http://" + MyYaml.node_js_host + ":" + str(MyYaml.node_js_port) + "/" + "friend"
 
     @staticmethod
-    def add():
+    def add(my_id, add_id):
 
         routes = '/friend/add'
         params = urllib.parse.urlencode({
-            'my_id': 'pmw9027',
-            'add_id': 'theway'
+            'my_id': my_id,
+            'add_id': add_id
         })
 
         binary_data = params.encode()
