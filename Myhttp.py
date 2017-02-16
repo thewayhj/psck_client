@@ -3,10 +3,10 @@ import urllib.parse
 import time
 from PyQt5.QtCore import QThread
 
-from deviceinfoThread import DeviceInfoThread
-from model.device import DeviceInfo
-from model.user import User
-from util import MyYaml
+from DeviceinfoThread import DeviceInfoThread
+from model.Device import DeviceInfo
+from model.User import User
+from Util import MyYaml
 
 
 class Communication(object):
@@ -56,18 +56,17 @@ class Communication(object):
             print(e)
 
 
-
 class FriendCommunication(object):
 
     url = "http://" + MyYaml.node_js_host + ":" + str(MyYaml.node_js_port) + "/" + "friend"
 
     @staticmethod
-    def add():
+    def add(my_id, add_id):
 
         routes = '/friend/add'
         params = urllib.parse.urlencode({
-            'my_id': 'pmw9027',
-            'add_id': 'theway'
+            'my_id': my_id,
+            'add_id': add_id
         })
 
         binary_data = params.encode()

@@ -15,11 +15,10 @@ import uuid
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThread
-
-import adduser
-from deviceinfoThread import DeviceInfoThread
-from model.device import DeviceInfo
-from myhttp import ThreadFriendInfoCommunication
+import AddFriendDialog
+from DeviceinfoThread import DeviceInfoThread
+from model.Device import DeviceInfo
+from Myhttp import ThreadFriendInfoCommunication
 
 booting_t = datetime.datetime.fromtimestamp(psutil.boot_time())
 
@@ -81,7 +80,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 240, 551))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 240, 570))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(5, 5, 0, 0)
@@ -96,21 +95,17 @@ class Ui_MainWindow(object):
         self.listWidget.setLayoutMode(QtWidgets.QListView.SinglePass)
         self.listWidget.setViewMode(QtWidgets.QListView.ListMode)
         self.listWidget.setModelColumn(0)
-        self.listWidget.setUniformItemSizes(False)
-        self.listWidget.setBatchSize(200)
-        self.listWidget.setWordWrap(False)
-        self.listWidget.setSelectionRectVisible(False)
         self.listWidget.setObjectName("listWidget")
 
         self.verticalLayout.addWidget(self.listWidget)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.pushButton_add = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton_add.setMinimumSize(QtCore.QSize(0, 40))
+        self.pushButton_add.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_add.setObjectName("pushButton_add")
         self.horizontalLayout_3.addWidget(self.pushButton_add)
         self.pushButton_del = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton_del.setMinimumSize(QtCore.QSize(0, 40))
+        self.pushButton_del.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_del.setObjectName("pushButton_del")
         self.horizontalLayout_3.addWidget(self.pushButton_del)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
@@ -256,7 +251,6 @@ class Ui_MainWindow(object):
         except Exception as e:
             print(e)
 
-
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "HackerViewer"))
@@ -265,7 +259,7 @@ class Ui_MainWindow(object):
 
         DeviceInfoThread.friend_device_info.append(DeviceInfo('Sung Kyungmo', 'sung'))
         DeviceInfoThread.friend_device_info.append(DeviceInfo('Park Minwoo', 'pmw9027'))
-        DeviceInfoThread.friend_device_info.append(DeviceInfo('Choi Jinseok', 'sung'))
+        DeviceInfoThread.friend_device_info.append(DeviceInfo('Choi Jinseok', 'choi'))
         DeviceInfoThread.friend_device_info.append(DeviceInfo('Kim Heejoong', 'theway'))
 
         self.listwidget_item()
@@ -274,9 +268,9 @@ class Ui_MainWindow(object):
 
         self.listWidget.setSortingEnabled(__sortingEnabled)
         self.pushButton_add.setText(_translate("MainWindow", "+"))
-        self.pushButton_add.clicked.connect(adduser.AddDialog.widget_show)
+        self.pushButton_add.clicked.connect(AddFriendDialog.AddFriendDialog.widget_show)
         self.pushButton_del.setText(_translate("MainWindow", "-"))
-#        self.pushButton_del.clicked.connect(self.del_user)
+        self.pushButton_del.clicked.connect(self.del_friend)
         self.label_ip.setText(_translate("MainWindow", "IP"))
         self.label_mac.setText(_translate("MainWindow", "MAC"))
         self.label_name.setText(_translate("MainWindow", "NAME"))
@@ -293,14 +287,6 @@ class Ui_MainWindow(object):
 
         _translate = QtCore.QCoreApplication.translate
 
-        font = QtGui.QFont()
-        font.setBold(False)
-        font.setItalic(False)
-        font.setUnderline(False)
-        font.setWeight(50)
-        font.setStrikeOut(False)
-        font.setKerning(True)
-
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("img/profile_img.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
 
@@ -310,7 +296,6 @@ class Ui_MainWindow(object):
 
         for index, i in enumerate(DeviceInfoThread.friend_device_info):
             listitem = QtWidgets.QListWidgetItem()
-            listitem.setFont(font)
             listitem.setIcon(icon)
             listitem.setBackground(brush)
 
@@ -326,9 +311,17 @@ class Ui_MainWindow(object):
             ThreadFriendInfoCommunication.u_id = DeviceInfoThread.friend_device_info[x.row()].u_id
             thread_status.selected = x.row()
 
+    def del_friend(self):
+        listitems = self.listWidget.selectedItems()
+        if not listitems: return
+        for item in listitems:
+            del DeviceInfoThread.friend_device_info[self.listWidget.row(item)]
+            self.listWidget.takeItem(self.listWidget.row(item))
+
 class thread_status(QThread):
 
     selected = 0
+
     def __init__(self, main_frame):
         QThread.__init__(self)
         self.main_frame = main_frame
@@ -338,10 +331,9 @@ class thread_status(QThread):
 
     def run(self):
         while True:
-            self.main_frame.set_text(DeviceInfoThread.friend_device_info[thread_status.selected])
+            self.main_frame.set_text(DeviceInfoThread.friend_device_info[thread_status.selected-1])
             time.sleep(1)
 
-    #def del_user(self):
 
 
 

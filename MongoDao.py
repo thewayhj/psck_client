@@ -1,7 +1,7 @@
 import pymongo
 import yaml
 
-from util import MyYaml
+from Util import MyYaml
 
 
 class LoginDao(object):
