@@ -15,7 +15,11 @@ class WebChatFrame(LoginFrame):
         WebChatFrame.q_widget.show()
         WebChatFrame.q_widget.setFixedSize(400, 600)
         WebChatFrame.q_widget.move(main_widget.mapToGlobal(QPoint(main_widget.width()+1, -25)));
+        horizontalLayout = QtWidgets.QHBoxLayout(WebChatFrame.q_widget)
+        horizontalLayout.setContentsMargins(0, 0, 0, 0)
+
         view = QtWebEngineWidgets.QWebEngineView(WebChatFrame.q_widget)
+        horizontalLayout.addWidget(view)
         view.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.PluginsEnabled, True)
         view.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.JavascriptEnabled, True)
         view.resize(400, 600)
