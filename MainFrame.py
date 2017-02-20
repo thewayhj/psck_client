@@ -330,7 +330,7 @@ class thread_status(QThread):
 
     def run(self):
         while True:
-            self.main_frame.set_text(DeviceInfoThread.friend_device_info[thread_status.selected-1])
+            self.main_frame.set_text(DeviceInfoThread.friend_device_info[thread_status.selected])
             time.sleep(1)
 
 

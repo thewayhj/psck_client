@@ -11,8 +11,11 @@ class WebChatFrame(object):
         WebChatFrame.q_widget = QtWidgets.QWidget()
         WebChatFrame.q_widget.show()
         WebChatFrame.q_widget.resize(400, 600)
+        horizontalLayout = QtWidgets.QHBoxLayout(WebChatFrame.q_widget)
+        horizontalLayout.setContentsMargins(0, 0, 0, 0)
 
         view = QtWebEngineWidgets.QWebEngineView(WebChatFrame.q_widget)
+        horizontalLayout.addWidget(view)
         view.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.PluginsEnabled, True)
         view.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.JavascriptEnabled, True)
 
