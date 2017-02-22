@@ -11,7 +11,7 @@ import json
 
 class Communication(object):
 
-    #url = "http://" + MyYaml.node_js_host + ":" + str(MyYaml.node_js_port)
+    url = "http://" + MyYaml.node_js_host + ":" + str(MyYaml.node_js_port)
     url_t = "http://127.0.0.1:3000"
 
     info = DeviceInfo('1', '1')
