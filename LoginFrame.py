@@ -1,6 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import pymongo
+from PyQt5.QtCore import QEvent, pyqtSlot
 from PyQt5.QtCore import Qt
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtGui import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QDialog
@@ -131,3 +133,4 @@ class LoginFrame(object):
         d.setWindowTitle("Fail")
         d.setWindowModality(Qt.ApplicationModal)
         d.exec_()
+
