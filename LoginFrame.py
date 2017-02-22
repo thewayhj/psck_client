@@ -6,6 +6,8 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtCore import QUrl
+
+from FailDialog import FailDialog
 from JoinFrame import JoinFrame
 from model.User import User
 from MongoDao import LoginDao
@@ -48,13 +50,12 @@ class LoginFrame(object):
         LoginFrame.horizontalLayout_3.addLayout(LoginFrame.verticalLayout_4)
         LoginFrame.verticalLayout_5 = QtWidgets.QVBoxLayout()
         LoginFrame.verticalLayout_5.setObjectName("verticalLayout_5")
-        LoginFrame.lineEdit_id = QtWidgets.QLineEdit(LoginFrame.verticalLayoutWidget)
-        LoginFrame.lineEdit_id.setObjectName("lineEdit_id")
-        LoginFrame.verticalLayout_5.addWidget(LoginFrame.lineEdit_id)
-        LoginFrame.lineEdit_pw = QtWidgets.QLineEdit(LoginFrame.verticalLayoutWidget)
-        LoginFrame.lineEdit_pw.setObjectName("lineEdit_pw")
-        LoginFrame.lineEdit_pw.setEchoMode(QtWidgets.QLineEdit.Password)
-        LoginFrame.verticalLayout_5.addWidget(LoginFrame.lineEdit_pw)
+        LoginFrame.lineEdit = QtWidgets.QLineEdit(LoginFrame.verticalLayoutWidget)
+        LoginFrame.lineEdit.setObjectName("lineEdit")
+        LoginFrame.verticalLayout_5.addWidget(LoginFrame.lineEdit)
+        LoginFrame.lineEdit_2 = QtWidgets.QLineEdit(LoginFrame.verticalLayoutWidget)
+        LoginFrame.lineEdit_2.setObjectName("lineEdit_2")
+        LoginFrame.verticalLayout_5.addWidget(LoginFrame.lineEdit_2)
         LoginFrame.horizontalLayout_3.addLayout(LoginFrame.verticalLayout_5)
         LoginFrame.verticalLayout.addLayout(LoginFrame.horizontalLayout_3)
 
@@ -104,16 +105,18 @@ class LoginFrame(object):
     @staticmethod
     def btnOkClicked(i):
 
-        my_id = LoginFrame.lineEdit_id.text()
-        my_pw = LoginFrame.lineEdit_pw.text()
-        if LoginDao.login(my_id, my_pw):
+        my_id = LoginFrame.lineEdit.text()
+        my_pw = LoginFrame.lineEdit_2.text()
+
+        result = Communication.login(my_id, my_pw)
+
+        print(result)
+        if result['success']:
             LoginFrame.qwidget.hide()
-            Communication.login(my_id)
             User.u_id = my_id
-
         else:
-            LoginFrame.showdialog()
-
+            FailDialog.retranslateUi('Fail', result['message'])
+            FailDialog.widget_show()
     @staticmethod
     def btnKaKaoClicked():
 

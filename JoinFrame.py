@@ -11,6 +11,7 @@ import pymongo
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication
 
+from FailDialog import FailDialog
 from MongoDao import JoinDao
 from Myhttp import Communication
 from model.Account import Account
@@ -107,8 +108,13 @@ class JoinFrame(object):
     @staticmethod
     def ok_btn_click():
         account = Account(JoinFrame.lineEdit.text(),JoinFrame.lineEdit_2.text())
-        if Communication.join(account):
+
+        result = Communication.join(account)
+        if result['success']:
             JoinFrame.widget_hide()
+        else:
+            FailDialog.retranslateUi('Fail', result['message'])
+            FailDialog.widget_show()
 
     @staticmethod
     def cancel_btn_click():
