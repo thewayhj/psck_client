@@ -3,11 +3,17 @@ from PyQt5 import QtWebEngineWidgets
 from PyQt5.QtCore import QPoint
 from PyQt5.QtCore import QUrl
 from PyQt5.QtCore import QUrlQuery
+from Util import MyYaml
+
+class WebChatFrame(object):
+    url = "http://" + MyYaml.node_js_host + ":" + str(MyYaml.node_js_port)
+
 
 from LoginFrame import LoginFrame
 
 
 class WebChatFrame(LoginFrame):
+
 
     @staticmethod
     def init(main_widget,my_id = '', oppenent_id = ''):
@@ -22,8 +28,8 @@ class WebChatFrame(LoginFrame):
         horizontalLayout.addWidget(view)
         view.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.PluginsEnabled, True)
         view.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.JavascriptEnabled, True)
-        view.resize(400, 600)
-        url = QUrl('http://127.0.0.1:3000/chat')
+        url = QUrl(WebChatFrame.url+'/chat')
+
         urldata = QUrlQuery()
         urldata.addQueryItem('my_id', my_id)
         urldata.addQueryItem('oppenent_id', oppenent_id)

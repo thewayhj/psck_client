@@ -221,6 +221,7 @@ class Ui_MainWindow(object):
         self.actionhelp.setObjectName("actionhelp")
         self.menuSetting.addAction(self.actionsetting)
         self.menuHelp.addAction(self.actionhelp)
+
         self.menubar.addAction(self.menuSetting.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
