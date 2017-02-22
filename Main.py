@@ -6,6 +6,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import QUrl
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QFileDialog
 
 from DeviceinfoThread import DeviceInfoThread
 from JoinFrame import JoinFrame
@@ -32,7 +33,9 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
+
     main_ui = Ui_MainWindow(MainWindow)
+
     MainWindow.show()
 
     AddFriendDialog.AddFriendDialog.init(main_ui)
@@ -41,7 +44,9 @@ if __name__ == '__main__':
 
     JoinFrame.init()
 
-    WebChatFrame.init()
+    WebChatFrame.init(MainWindow)
+
+    fname = QFileDialog.getOpenFileName()
 
     sys.exit(app.exec_())
 
