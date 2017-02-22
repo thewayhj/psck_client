@@ -25,8 +25,9 @@ class WebChatFrame(LoginFrame):
         horizontalLayout.addWidget(view)
         view.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.PluginsEnabled, True)
         view.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.JavascriptEnabled, True)
-        view.resize(400, 600)
+
         url = QUrl(WebChatFrame.url+'/chat')
+
         urldata = QUrlQuery()
         urldata.addQueryItem('my_id', my_id)
         urldata.addQueryItem('oppenent_id', oppenent_id)
