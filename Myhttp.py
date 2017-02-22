@@ -12,7 +12,7 @@ from Util import MyYaml
 class Communication(object):
 
     #url = "http://" + MyYaml.node_js_host + ":" + str(MyYaml.node_js_port)
-    url = "http://127.0.0.1:3000"
+    url_t = "http://127.0.0.1:3000"
 
     info = DeviceInfo('1', '1')
 
@@ -23,13 +23,10 @@ class Communication(object):
         binary_data = params.encode()
 
         try:
-            data = urllib.request.urlopen(Communication.url+routes, binary_data).read()
+            data = urllib.request.urlopen(Communication.url_t+routes, binary_data).read()
         except Exception as e:
             print(e)
 
-
-        #print(data)
-        #data = urllib.request.urlopen(url, binary_data).read()
 
     @staticmethod
     def send2(u_id):
@@ -39,7 +36,7 @@ class Communication(object):
         })
         binary_data = params.encode()
         try:
-            data = urllib.request.urlopen(Communication.url + routes, binary_data).read()
+            data = urllib.request.urlopen(Communication.url_t + routes, binary_data).read()
         except Exception as e:
             print(e)
 
@@ -51,9 +48,25 @@ class Communication(object):
         })
         binary_data = params.encode()
         try:
-            data = urllib.request.urlopen(Communication.url+routes, binary_data).read()
+            data = urllib.request.urlopen(Communication.url_t + routes, binary_data).read()
         except Exception as e:
             print(e)
+
+    @staticmethod
+    def join(account):
+        routes = "/account"
+        params = urllib.parse.urlencode({
+            'id': account.u_id,
+            'pw': account.u_pw,
+        })
+        binary_data = params.encode()
+        try:
+            data = urllib.request.urlopen(Communication.url_t + routes, binary_data).read()
+            print(data)
+        except Exception as e:
+            print(e)
+
+        return True
 
 
 class FriendCommunication(object):
@@ -71,12 +84,7 @@ class FriendCommunication(object):
 
         binary_data = params.encode()
 
-        #req = urllib.request.Request(test, headers=hdr);
-        print(binary_data);
         data = urllib.request.urlopen(FriendCommunication.url + routes, binary_data).read()
-
-        print(data)
-        #data = urllib.request.urlopen(url, binary_data).read()
 
 
 class ThreadCommunication(QThread):

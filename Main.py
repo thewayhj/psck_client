@@ -46,8 +46,6 @@ if __name__ == '__main__':
 
     WebChatFrame.init(MainWindow)
 
-    fname = QFileDialog.getOpenFileName()
-
     sys.exit(app.exec_())
 
 
