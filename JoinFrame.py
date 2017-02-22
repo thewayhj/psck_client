@@ -12,6 +12,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication
 
 from MongoDao import JoinDao
+from Myhttp import Communication
+from model.Account import Account
 
 
 class JoinFrame(object):
@@ -104,7 +106,8 @@ class JoinFrame(object):
 
     @staticmethod
     def ok_btn_click():
-        if JoinDao.join(JoinFrame.lineEdit.text(), JoinFrame.lineEdit_2.text()):
+        account = Account(JoinFrame.lineEdit.text(),JoinFrame.lineEdit_2.text())
+        if Communication.join(account):
             JoinFrame.widget_hide()
 
     @staticmethod

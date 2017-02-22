@@ -6,12 +6,10 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-import socket
 import datetime
 import time
 import psutil
 import platform
-import uuid
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThread
@@ -24,8 +22,6 @@ booting_t = datetime.datetime.fromtimestamp(psutil.boot_time())
 
 mac_address = []
 ip_address = []
-print(psutil.net_if_addrs())
-#print(psutil.net_connections(kind='tcp'))
 
 def get_mac_address(): # Mac Address function
     if platform.system() == "Darwin":
@@ -39,9 +35,8 @@ def get_mac_address(): # Mac Address function
         #print()
         addrs = psutil.net_if_addrs().get('Wi-Fi')
         for i in addrs:
-#            for j in addrs[i]:
-                if i.family == -1:  # Mac 주소
-                    mac_address.append(i.address)
+            if i.family == -1:  # Mac 주소
+                mac_address.append(i.address)
         return mac_address
 
 
@@ -52,17 +47,6 @@ def get_ip_address(): # IP Address function
             if i.family == 2:  # IP 주소
                 ip_address.append(i.address)
         return ip_address
-
-    # elif platform.system() == "Windows":
-    #      addrs = psutil.net_if_addrs().get('')
-    #      for i in addrs:for j in addrs[i]:
-    #              if j.family == 2:  # IP 주소
-    #                  ip_address.append(j.address)
-    #          if socket.gethostbyname(socket.gethostname()) == ip_address
-    #              break;
-    #          else
-    #      return ip_address#[a+1]
-
 
 class Ui_MainWindow(object):
 
@@ -221,6 +205,7 @@ class Ui_MainWindow(object):
         self.actionhelp.setObjectName("actionhelp")
         self.menuSetting.addAction(self.actionsetting)
         self.menuHelp.addAction(self.actionhelp)
+
         self.menubar.addAction(self.menuSetting.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
