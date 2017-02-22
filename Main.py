@@ -46,6 +46,7 @@ if __name__ == '__main__':
 
     WebChatFrame.init(MainWindow)
 
+
     sys.exit(app.exec_())
 
 

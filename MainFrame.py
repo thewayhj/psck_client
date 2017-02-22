@@ -213,6 +213,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.listWidget.itemClicked.connect(self.friend_list_click_event)
+        self.listWidget.itemDoubleClicked.connect(self.friend_list_double_click_event)
 
     def set_text(self, device_info):
         _translate = QtCore.QCoreApplication.translate
@@ -290,10 +291,16 @@ class Ui_MainWindow(object):
             else:
                 item.setText(_translate("MainWindow", i.name))
 
+
     def friend_list_click_event(self):
         for x in self.listWidget.selectedIndexes():
             ThreadFriendInfoCommunication.u_id = DeviceInfoThread.friend_device_info[x.row()].u_id
             thread_status.selected = x.row()
+
+    def friend_list_double_click_event(self):
+        for x in self.listWidget.selectedIndexes():
+            print(DeviceInfoThread.friend_device_info[x.row()].u_id)
+
 
     def del_friend(self):
         listitems = self.listWidget.selectedItems()

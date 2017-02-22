@@ -16,8 +16,8 @@ class WebChatFrame(LoginFrame):
     def init(main_widget,my_id = '', oppenent_id = ''):
         WebChatFrame.q_widget = QtWidgets.QWidget()
         WebChatFrame.q_widget.show()
-        WebChatFrame.q_widget.setFixedSize(400, 600)
-        WebChatFrame.q_widget.move(main_widget.mapToGlobal(QPoint(main_widget.width()+1, -25)));
+        WebChatFrame.q_widget.setFixedSize(300, 600)
+        WebChatFrame.q_widget.move(main_widget.mapToGlobal(QPoint(main_widget.width()+1, -23)));
         horizontalLayout = QtWidgets.QHBoxLayout(WebChatFrame.q_widget)
         horizontalLayout.setContentsMargins(0, 0, 0, 0)
 
