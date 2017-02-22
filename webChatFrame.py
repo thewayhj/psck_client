@@ -2,10 +2,10 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtWebEngineWidgets
 from PyQt5.QtCore import QUrl
 from PyQt5.QtCore import QUrlQuery
-
+from Util import MyYaml
 
 class WebChatFrame(object):
-
+    url = "http://" + MyYaml.node_js_host + ":" + str(MyYaml.node_js_port)
     @staticmethod
     def init(my_id = '', oppenent_id = ''):
         WebChatFrame.q_widget = QtWidgets.QWidget()
@@ -16,7 +16,7 @@ class WebChatFrame(object):
         view.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.PluginsEnabled, True)
         view.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.JavascriptEnabled, True)
 
-        url = QUrl('http://127.0.0.1:3001/chat')
+        url = QUrl(WebChatFrame.url+'/chat')
         urldata = QUrlQuery()
         urldata.addQueryItem('my_id', my_id)
         urldata.addQueryItem('oppenent_id', oppenent_id)
