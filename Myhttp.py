@@ -7,7 +7,7 @@ from DeviceinfoThread import DeviceInfoThread
 from model.Device import DeviceInfo
 from model.User import User
 from Util import MyYaml
-
+import json
 
 class Communication(object):
 
@@ -41,32 +41,30 @@ class Communication(object):
             print(e)
 
     @staticmethod
-    def login(my_id):
-        routes = "/status/login"
-        params = urllib.parse.urlencode({
-            'id': my_id
-        })
-        binary_data = params.encode()
+    def login(my_id, my_pw):
+        routes = "/account?u_id="+my_id+"&u_pw="+my_pw
         try:
-            data = urllib.request.urlopen(Communication.url_t + routes, binary_data).read()
+
+            data = urllib.request.urlopen(Communication.url_t + routes).read()
         except Exception as e:
             print(e)
+
+        return json.loads(data.decode("utf-8"))
 
     @staticmethod
     def join(account):
         routes = "/account"
         params = urllib.parse.urlencode({
-            'id': account.u_id,
-            'pw': account.u_pw,
+            'u_id': account.u_id,
+            'u_pw': account.u_pw,
         })
         binary_data = params.encode()
         try:
             data = urllib.request.urlopen(Communication.url_t + routes, binary_data).read()
-            print(data)
         except Exception as e:
             print(e)
 
-        return True
+        return json.loads(data.decode("utf-8"))
 
 
 class FriendCommunication(object):

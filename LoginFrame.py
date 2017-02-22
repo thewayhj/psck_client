@@ -6,6 +6,8 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtCore import QUrl
+
+from FailDialog import FailDialog
 from JoinFrame import JoinFrame
 from model.User import User
 from MongoDao import LoginDao
@@ -105,14 +107,16 @@ class LoginFrame(object):
 
         my_id = LoginFrame.lineEdit.text()
         my_pw = LoginFrame.lineEdit_2.text()
-        if LoginDao.login(my_id, my_pw):
+
+        result = Communication.login(my_id, my_pw)
+
+        print(result)
+        if result['success']:
             LoginFrame.qwidget.hide()
-            Communication.login(my_id)
             User.u_id = my_id
-
         else:
-            LoginFrame.showdialog()
-
+            FailDialog.retranslateUi('Fail', result['message'])
+            FailDialog.widget_show()
     @staticmethod
     def btnKaKaoClicked():
 
