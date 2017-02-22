@@ -35,4 +35,3 @@ class WebChatFrame(LoginFrame):
 
         view.setUrl(url)
         view.show()
-

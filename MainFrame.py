@@ -11,6 +11,8 @@ import time
 import psutil
 import platform
 
+
+import ModifyProfile
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThread
 import AddFriendDialog
@@ -299,6 +301,10 @@ class Ui_MainWindow(object):
 
     def friend_list_double_click_event(self):
         for x in self.listWidget.selectedIndexes():
+            ModifyProfile.ModifyProfile.init()
+            if x.row()!=0:
+                ModifyProfile.ModifyProfile.hide_button()
+            ModifyProfile.ModifyProfile.set_info(DeviceInfoThread.friend_device_info[x.row()].name,DeviceInfoThread.friend_device_info[x.row()].u_id)
             print(DeviceInfoThread.friend_device_info[x.row()].u_id)
 
 
