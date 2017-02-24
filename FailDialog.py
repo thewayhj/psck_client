@@ -7,9 +7,6 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import MainFrame
-from DeviceinfoThread import DeviceInfoThread
-from model.Device import DeviceInfo
 
 
 class FailDialog(object):

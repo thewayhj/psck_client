@@ -111,7 +111,7 @@ class LoginFrame(object):
         LoginFrame.pushButton_signup.setText(_translate("Form", "Sign up"))
 
     @staticmethod
-    def btnOkClicked(i):
+    def btnOkClicked():
 
         my_id = LoginFrame.lineEdit_id.text()
         my_pw = LoginFrame.lineEdit_pw.text()
@@ -125,6 +125,7 @@ class LoginFrame(object):
         else:
             FailDialog.retranslateUi('Fail', result['message'])
             FailDialog.widget_show()
+
     @staticmethod
     def btnKaKaoClicked():
 
