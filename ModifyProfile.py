@@ -48,6 +48,9 @@ class ModifyProfile(object):
         ModifyProfile.label_img.setGeometry(QtCore.QRect(20, 20, 150, 150))
         ModifyProfile.label_img.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         ModifyProfile.label_img.setObjectName("label_img")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("img/profile_img.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        #ModifyProfile.label_img.setPixmap(QPixmap(icon))
 
         ModifyProfile.pushButton_img.setGeometry(QtCore.QRect(140, 140, 30, 30))
         ModifyProfile.pushButton_img.setIcon(QtGui.QIcon("img/modify.png"))

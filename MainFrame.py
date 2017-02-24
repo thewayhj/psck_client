@@ -10,15 +10,18 @@ import datetime
 import time
 import psutil
 import platform
-
-
 import ModifyProfile
+
+from PyQt5.QtWidgets import QSizePolicy
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThread
 import AddFriendDialog
 from DeviceinfoThread import DeviceInfoThread
 from model.Device import DeviceInfo
 from Myhttp import ThreadFriendInfoCommunication
+
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 booting_t = datetime.datetime.fromtimestamp(psutil.boot_time())
 
@@ -53,6 +56,8 @@ def get_ip_address(): # IP Address function
 class Ui_MainWindow(object):
 
     friends = []
+    cpu_data = []
+    ram_data = []
 
     def __init__(self, mainwindow):
         super().__init__()
@@ -65,6 +70,9 @@ class Ui_MainWindow(object):
         MainWindow.resize(634, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        palette = QtGui.QPalette()
+        palette.setColor(QtGui.QPalette.Background, QtCore.Qt.white)
+        MainWindow.setPalette(palette)
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 240, 570))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
@@ -102,30 +110,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setContentsMargins(30, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
 
-        self.label_ip = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_ip.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
-        self.label_ip.setObjectName("label_ip")
-        self.verticalLayout_2.addWidget(self.label_ip)
-
-        self.label_ip_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_ip_v.setEnabled(True)
-        self.label_ip_v.setMinimumSize(QtCore.QSize(0, 0))
-        self.label_ip_v.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
-        self.label_ip_v.setObjectName("label_ip_v")
-        self.verticalLayout_2.addWidget(self.label_ip_v)
-
-        self.label_mac = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_mac.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
-        self.label_mac.setObjectName("label_mac")
-        self.verticalLayout_2.addWidget(self.label_mac)
-
-        self.label_mac_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_mac_v.setEnabled(True)
-        self.label_mac_v.setMinimumSize(QtCore.QSize(0, 0))
-        self.label_mac_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.label_mac_v.setObjectName("label_mac_v")
-        self.verticalLayout_2.addWidget(self.label_mac_v)
-
         self.label_name = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_name.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
         self.label_name.setObjectName("label_name")
@@ -137,6 +121,79 @@ class Ui_MainWindow(object):
         self.label_name_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_name_v.setObjectName("label_name_v")
         self.verticalLayout_2.addWidget(self.label_name_v)
+
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+
+        self.label_ip = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.label_ip.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft)
+        self.label_ip.setObjectName("label_ip")
+        self.verticalLayout_5.addWidget(self.label_ip)
+        self.label_ip_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.label_ip_v.setEnabled(True)
+        self.label_ip_v.setMinimumSize(QtCore.QSize(0, 0))
+        self.label_ip_v.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.label_ip_v.setObjectName("label_ip_v")
+        self.verticalLayout_5.addWidget(self.label_ip_v)
+
+        self.horizontalLayout.addLayout(self.verticalLayout_5)
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+
+        self.label_mac = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.label_mac.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft)
+        self.label_mac.setObjectName("label_mac")
+        self.verticalLayout_3.addWidget(self.label_mac)
+        self.label_mac_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.label_mac_v.setEnabled(True)
+        self.label_mac_v.setMinimumSize(QtCore.QSize(0, 0))
+        self.label_mac_v.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.label_mac_v.setObjectName("label_mac_v")
+        self.verticalLayout_3.addWidget(self.label_mac_v)
+
+        self.horizontalLayout.addLayout(self.verticalLayout_3)
+        self.verticalLayout_2.addLayout(self.horizontalLayout)
+
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.horizontalLayout_2.setContentsMargins(0,10,0,0)
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
+
+        self.label_booting = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.label_booting.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft)
+        self.label_booting.setObjectName("label_usage")
+        self.verticalLayout_6.addWidget(self.label_booting)
+
+        self.label_booting_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.label_booting_v.setEnabled(True)
+        self.label_booting_v.setMinimumSize(QtCore.QSize(0, 0))
+        self.label_booting_v.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.label_booting_v.setObjectName("label_booting_v")
+        self.verticalLayout_6.addWidget(self.label_booting_v)
+
+        self.horizontalLayout_2.addLayout(self.verticalLayout_6)
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+
+
+        self.label_usage = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.label_usage.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft)
+        self.label_usage.setObjectName("label_access")
+        self.verticalLayout_7.addWidget(self.label_usage)
+
+        self.label_usage_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.label_usage_v.setEnabled(True)
+        self.label_usage_v.setMinimumSize(QtCore.QSize(0, 0))
+        self.label_usage_v.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.label_usage_v.setObjectName("label_access_v")
+        self.verticalLayout_7.addWidget(self.label_usage_v)
+
+        self.horizontalLayout_2.addLayout(self.verticalLayout_7)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+
 
         self.label_cpu = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_cpu.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
@@ -150,6 +207,9 @@ class Ui_MainWindow(object):
         self.label_cpu_v.setObjectName("label_cpu_v")
         self.verticalLayout_2.addWidget(self.label_cpu_v)
 
+        self.graphView_cpu = PlotCanvas(self, width=6, height=2)
+        self.verticalLayout_2.addWidget(self.graphView_cpu)
+
         self.label_ram = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_ram.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
         self.label_ram.setObjectName("label_ram")
@@ -162,29 +222,9 @@ class Ui_MainWindow(object):
         self.label_ram_v.setObjectName("label_ram_v")
         self.verticalLayout_2.addWidget(self.label_ram_v)
 
-        self.label_usage = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_usage.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft)
-        self.label_usage.setObjectName("label_access")
-        self.verticalLayout_2.addWidget(self.label_usage)
+        self.graphView_ram = PlotCanvas(self, width=6, height=2)
+        self.verticalLayout_2.addWidget(self.graphView_ram)
 
-        self.label_usage_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_usage_v.setEnabled(True)
-        self.label_usage_v.setMinimumSize(QtCore.QSize(0, 0))
-        self.label_usage_v.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
-        self.label_usage_v.setObjectName("label_access_v")
-        self.verticalLayout_2.addWidget(self.label_usage_v)
-
-        self.label_booting = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_booting.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft)
-        self.label_booting.setObjectName("label_usage")
-        self.verticalLayout_2.addWidget(self.label_booting)
-
-        self.label_booting_v = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_booting_v.setEnabled(True)
-        self.label_booting_v.setMinimumSize(QtCore.QSize(0, 0))
-        self.label_booting_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.label_booting_v.setObjectName("label_booting_v")
-        self.verticalLayout_2.addWidget(self.label_booting_v)
 
         self.verticalLayoutWidget.raise_()
         self.verticalLayoutWidget_2.raise_()
@@ -226,7 +266,17 @@ class Ui_MainWindow(object):
             self.label_name_v.setText(_translate("MainWindow", device_info.d_name))
             self.label_booting_v.setText(_translate("MainWindow", str(device_info.d_boot_t)))
             self.label_cpu_v.setText(_translate("MainWindow", "percent : " + str(device_info.d_cpu_per) + "%"))
-            self.label_ram_v.setText(_translate("MainWindow", "total : " + str(round(device_info.d_mem_total / 1024 / 1024)) + "MB  available : " + str(round(device_info.d_mem_avail / 1024 / 1024)) + "MB  \npercent : " + str(device_info.d_mem_per) + "%"))
+            self.label_ram_v.setText(_translate("MainWindow", "percent : " + str(device_info.d_mem_per) + "%  total : " + str(round(device_info.d_mem_total / 1024 / 1024)) + "MB  available : " + str(round(device_info.d_mem_avail / 1024 / 1024)) + "MB"))
+
+            if(len(self.cpu_data) > 10):
+                self.cpu_data.pop(0)
+            self.cpu_data.append(device_info.d_cpu_per)
+            self.graphView_cpu.plot(self.cpu_data)
+
+            if (len(self.ram_data) > 10):
+                self.ram_data.pop(0)
+            self.ram_data.append(device_info.d_mem_per)
+            self.graphView_ram.plot(self.ram_data)
 
             usage_time = datetime.datetime.now() - device_info.d_boot_t
             usage_ts = usage_time.total_seconds()
@@ -237,6 +287,7 @@ class Ui_MainWindow(object):
             self.label_usage_v.setText(_translate("MainWindow", str(usage_h) + "시간 " + str(usage_m) + "분 " + str(usage_s) + "초"))
         except Exception as e:
             print(e)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -250,8 +301,6 @@ class Ui_MainWindow(object):
         DeviceInfoThread.friend_device_info.append(DeviceInfo('Kim Heejoong', 'theway'))
 
         self.listwidget_item()
-
-        #self.listWidget.itemClicked.connect(self.selectItem)
 
         self.listWidget.setSortingEnabled(__sortingEnabled)
         self.pushButton_add.setText(_translate("MainWindow", "+"))
@@ -333,6 +382,25 @@ class thread_status(QThread):
             time.sleep(1)
 
 
+class PlotCanvas(FigureCanvas):
+    def __init__(self, parent=None, width=6, height=2, dpi=60):
+        fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = fig.add_subplot(1,1,1)
+
+        FigureCanvas.__init__(self, fig)
+
+        FigureCanvas.setSizePolicy(self, 100, 20)
+        FigureCanvas.updateGeometry(self)
+
+
+
+    def plot(self,data):
+        ax = self.figure.add_subplot(1,1,1)
+        ax.clear()
+        ax.plot(data, 'r-',linewidth=1.5)
+        ax.plot(0)
+        ax.plot(100)
+        self.draw()
 
 
 
