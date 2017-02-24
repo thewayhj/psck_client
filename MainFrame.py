@@ -10,15 +10,18 @@ import datetime
 import time
 import psutil
 import platform
-
-
 import ModifyProfile
+
+from PyQt5.QtWidgets import QSizePolicy
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThread
 import AddFriendDialog
 from DeviceinfoThread import DeviceInfoThread
 from model.Device import DeviceInfo
 from Myhttp import ThreadFriendInfoCommunication
+
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 booting_t = datetime.datetime.fromtimestamp(psutil.boot_time())
 
@@ -53,6 +56,8 @@ def get_ip_address(): # IP Address function
 class Ui_MainWindow(object):
 
     friends = []
+    cpu_data = []
+    ram_data = []
 
     def __init__(self, mainwindow):
         super().__init__()
@@ -65,6 +70,9 @@ class Ui_MainWindow(object):
         MainWindow.resize(634, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        palette = QtGui.QPalette()
+        palette.setColor(QtGui.QPalette.Background, QtCore.Qt.white)
+        MainWindow.setPalette(palette)
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 240, 570))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
@@ -150,6 +158,9 @@ class Ui_MainWindow(object):
         self.label_cpu_v.setObjectName("label_cpu_v")
         self.verticalLayout_2.addWidget(self.label_cpu_v)
 
+        self.graphView_cpu = PlotCanvas(self, width=4, height=0.9)
+        self.verticalLayout_2.addWidget(self.graphView_cpu)
+
         self.label_ram = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_ram.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
         self.label_ram.setObjectName("label_ram")
@@ -161,6 +172,9 @@ class Ui_MainWindow(object):
         self.label_ram_v.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_ram_v.setObjectName("label_ram_v")
         self.verticalLayout_2.addWidget(self.label_ram_v)
+
+        self.graphView_ram = PlotCanvas(self, width=4, height=0.9)
+        self.verticalLayout_2.addWidget(self.graphView_ram)
 
         self.label_usage = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         self.label_usage.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft)
@@ -228,6 +242,16 @@ class Ui_MainWindow(object):
             self.label_cpu_v.setText(_translate("MainWindow", "percent : " + str(device_info.d_cpu_per) + "%"))
             self.label_ram_v.setText(_translate("MainWindow", "total : " + str(round(device_info.d_mem_total / 1024 / 1024)) + "MB  available : " + str(round(device_info.d_mem_avail / 1024 / 1024)) + "MB  \npercent : " + str(device_info.d_mem_per) + "%"))
 
+            if(len(self.cpu_data)>5):
+                self.cpu_data.pop(0)
+            self.cpu_data.append(device_info.d_cpu_per)
+            self.graphView_cpu.plot(self.cpu_data)
+
+            if (len(self.ram_data) > 5):
+                self.ram_data.pop(0)
+            self.ram_data.append(device_info.d_mem_per)
+            self.graphView_ram.plot(self.ram_data)
+
             usage_time = datetime.datetime.now() - device_info.d_boot_t
             usage_ts = usage_time.total_seconds()
             usage_h = int(usage_ts / 3600)
@@ -237,6 +261,7 @@ class Ui_MainWindow(object):
             self.label_usage_v.setText(_translate("MainWindow", str(usage_h) + "시간 " + str(usage_m) + "분 " + str(usage_s) + "초"))
         except Exception as e:
             print(e)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -250,8 +275,6 @@ class Ui_MainWindow(object):
         DeviceInfoThread.friend_device_info.append(DeviceInfo('Kim Heejoong', 'theway'))
 
         self.listwidget_item()
-
-        #self.listWidget.itemClicked.connect(self.selectItem)
 
         self.listWidget.setSortingEnabled(__sortingEnabled)
         self.pushButton_add.setText(_translate("MainWindow", "+"))
@@ -333,6 +356,25 @@ class thread_status(QThread):
             time.sleep(1)
 
 
+class PlotCanvas(FigureCanvas):
+    def __init__(self, parent=None, width=4, height=3, dpi=70):
+        fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = fig.add_subplot(1,1,1)
+
+        FigureCanvas.__init__(self, fig)
+
+        FigureCanvas.setSizePolicy(self, 100, 20)
+        FigureCanvas.updateGeometry(self)
+
+
+
+    def plot(self,data):
+        ax = self.figure.add_subplot(1,1,1)
+        ax.clear()
+        ax.plot(data, 'r-',linewidth=1.5)
+        ax.plot(0)
+        ax.plot(100)
+        self.draw()
 
 
 
