@@ -9,7 +9,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from FailDialog import FailDialog
-import MainFrame
 from DeviceinfoThread import DeviceInfoThread
 from Myhttp import FriendCommunication
 from model.Device import DeviceInfo
@@ -87,6 +86,7 @@ class AddFriendDialog(object):
             DeviceInfo(AddFriendDialog.lineEdit.text(), AddFriendDialog.lineEdit.text()))
 
             AddFriendDialog.main_window.listwidget_item()
+
             AddFriendDialog.widget_hide()
         else:
             FailDialog.retranslateUi('Fail', result['message'])
