@@ -357,6 +357,7 @@ class Ui_MainWindow(object):
     def retranslateUi(Ui_MainWindow, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "HackerViewer"))
+
         __sortingEnabled = Ui_MainWindow.listWidget.isSortingEnabled()
         Ui_MainWindow.listWidget.setSortingEnabled(False)
 

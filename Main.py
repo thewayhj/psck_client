@@ -49,7 +49,6 @@ if __name__ == '__main__':
 
     FailDialog.init(MainWindow)
 
-
     sys.exit(app.exec_())
 
 
