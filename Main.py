@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
     JoinFrame.init()
 
-    #WebChatFrame.init(MainWindow)
+    WebChatFrame.init(MainWindow)
 
     FailDialog.init(MainWindow)
 

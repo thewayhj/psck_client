@@ -8,10 +8,6 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from DeviceinfoThread import DeviceInfoThread
-from model.Device import DeviceInfo
-
-
 class FailDialog(object):
 
     Dialog = None
