@@ -14,7 +14,7 @@ import json
 class Communication(object):
 
     url = "http://" + MyYaml.node_js_host + ":" + str(MyYaml.node_js_port)
-    #url_t = "http://127.0.0.1:3000"
+    url_t = "http://127.0.0.1:3000"
 
     info = DeviceInfo('1', '1')
 
@@ -38,7 +38,7 @@ class Communication(object):
         })
         binary_data = params.encode()
         try:
-            data = urllib.request.urlopen(Communication.url + routes, binary_data).read()
+            data = urllib.request.urlopen(Communication.url  + routes, binary_data).read()
         except Exception as e:
             print(e)
 
@@ -81,7 +81,7 @@ class Communication(object):
 class FriendCommunication(object):
 
     url = "http://" + MyYaml.node_js_host + ":" + str(MyYaml.node_js_port) + "/" + "friend"
-    url = "http://127.0.0.1:3000"
+    url_t = "http://127.0.0.1:3000"
 
 
     @staticmethod

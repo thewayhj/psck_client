@@ -14,7 +14,7 @@ class WebChatFrame(LoginFrame):
     url_t = 'http://localhost:3000'
 
     @staticmethod
-    def init(main_widget,my_id = '', oppenent_id = ''):
+    def init(main_widget,my_id = 'theway', oppenent_id = ''):
         WebChatFrame.q_widget = QtWidgets.QWidget()
         WebChatFrame.q_widget.show()
         WebChatFrame.q_widget.setFixedSize(300, 600)
@@ -27,10 +27,10 @@ class WebChatFrame(LoginFrame):
         view.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.PluginsEnabled, True)
         view.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.JavascriptEnabled, True)
 
-        url = QUrl(WebChatFrame.url+'/chat')
+        url = QUrl(WebChatFrame.url+'/chat?m_id='+my_id)
 
         urldata = QUrlQuery()
-        urldata.addQueryItem('my_id', my_id)
+        urldata.addQueryItem('m_id', my_id)
         urldata.addQueryItem('oppenent_id', oppenent_id)
         url.setQuery(urldata)
 

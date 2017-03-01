@@ -46,6 +46,8 @@ class DeviceInfoThread(QThread):
             # mac = '-'.join(mac_num[i: i + 2] for i in range(0, 11, 2))
             # return mac
             addrs = psutil.net_if_addrs().get('Wi-Fi')
+            if addrs == None:
+                addrs = psutil.net_if_addrs().get('로컬 영역 연결')
             for i in addrs:
                 if i.family == -1:
                     return i.address
@@ -61,6 +63,8 @@ class DeviceInfoThread(QThread):
             # hostname = socket.gethostname()
             # return socket.gethostbyname(hostname)
             addrs = psutil.net_if_addrs().get('Wi-Fi')
+            if addrs == None:
+                addrs = psutil.net_if_addrs().get('로컬 영역 연결')
             for i in addrs:
                 if i.family == 2:
                     return i.address
