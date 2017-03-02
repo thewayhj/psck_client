@@ -1,9 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QPushButton
-from AddFriendDialog import AddFriendDialog
 from DeviceinfoThread import DeviceInfoThread
 from FailDialog import FailDialog
 from JoinFrame import JoinFrame
@@ -122,7 +120,8 @@ class LoginFrame(object):
             for i in result['friends']:
                 DeviceInfoThread.friend_device_info.append(DeviceInfo(i['op_id'], i['op_id']))
 
-                MainFrame.MainFrame.listwidget_item()
+
+            MainFrame.MainFrame.listwidget_item()
 
         else:
             FailDialog.retranslateUi('Fail', result['message'])

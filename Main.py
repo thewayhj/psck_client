@@ -1,12 +1,9 @@
 import sys
 
 from PyQt5.QtWidgets import QApplication
-
-
 from FailDialog import FailDialog
 from DeviceinfoThread import DeviceInfoThread
 from JoinFrame import JoinFrame
-
 from MainFrame import MainFrame
 from model.Device import DeviceInfo
 from Myhttp import ThreadFriendInfoCommunication

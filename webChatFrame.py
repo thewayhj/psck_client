@@ -15,6 +15,7 @@ class WebChatFrame(LoginFrame):
 
     @staticmethod
 
+
     def init(my_id = 'theway', oppenent_id = ''):
         WebChatFrame.q_widget = QtWidgets.QWidget()
         WebChatFrame.q_widget.show()
