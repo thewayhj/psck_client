@@ -1,22 +1,17 @@
 import sys
-#from os import fork
 
-import time
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import QUrl
-from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QFileDialog
+
 
 from FailDialog import FailDialog
 from DeviceinfoThread import DeviceInfoThread
 from JoinFrame import JoinFrame
-from LoginFrame import LoginFrame
-from MainFrame import Ui_MainWindow
+
+from MainFrame import MainFrame
 from model.Device import DeviceInfo
-from Myhttp import ThreadCommunication, ThreadFriendInfoCommunication
-from Myhttp import Communication, ThreadCommunication
-import AddFriendDialog
+from Myhttp import ThreadFriendInfoCommunication
+from Myhttp import ThreadCommunication
+from AddFriendDialog import AddFriendDialog
 from webChatFrame import WebChatFrame
 
 if __name__ == '__main__':
@@ -33,21 +28,18 @@ if __name__ == '__main__':
     comm2.start()
 
     app = QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
 
-    main_ui = Ui_MainWindow(MainWindow)
+    MainFrame.init()
 
-    MainWindow.show()
-
-    AddFriendDialog.AddFriendDialog.init(main_ui)
+    AddFriendDialog.init()
 
     #LoginFrame.init()
 
     JoinFrame.init()
 
-    WebChatFrame.init(MainWindow)
+    WebChatFrame.init()
 
-    FailDialog.init(MainWindow)
+    FailDialog.init()
 
     sys.exit(app.exec_())
 

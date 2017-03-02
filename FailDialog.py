@@ -14,8 +14,7 @@ class FailDialog(object):
     main_window = None
 
     @staticmethod
-    def init(main_window):
-        FailDialog.main_window = main_window
+    def init():
         FailDialog.Dialog = QtWidgets.QDialog()
         FailDialog.buttonBox = QtWidgets.QDialogButtonBox(FailDialog.Dialog)
 

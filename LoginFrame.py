@@ -1,25 +1,18 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-import pymongo
-from PyQt5.QtCore import QEvent, pyqtSlot
+
 from PyQt5.QtCore import Qt
-from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtGui import *
-from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QPushButton
-from PyQt5.QtCore import QUrl
-
 from AddFriendDialog import AddFriendDialog
 from DeviceinfoThread import DeviceInfoThread
 from FailDialog import FailDialog
 from JoinFrame import JoinFrame
 from model.Device import DeviceInfo
 from model.User import User
-from MongoDao import LoginDao
 from Myhttp import Communication, FriendCommunication
 import webbrowser
 from Util import MyYaml
-
+import MainFrame
 
 class LoginFrame(object):
 
@@ -121,16 +114,15 @@ class LoginFrame(object):
 
         result = Communication.login(my_id, my_pw)
 
-        print(result)
         if result['success']:
             LoginFrame.qwidget.hide()
             User.u_id = my_id
+            setattr(DeviceInfoThread.friend_device_info[0], 'u_id', my_id)
             result = FriendCommunication.friend_list(my_id)
-
             for i in result['friends']:
                 DeviceInfoThread.friend_device_info.append(DeviceInfo(i['op_id'], i['op_id']))
 
-            AddFriendDialog.main_window.listwidget_item()
+                MainFrame.MainFrame.listwidget_item()
 
         else:
             FailDialog.retranslateUi('Fail', result['message'])
@@ -139,8 +131,8 @@ class LoginFrame(object):
     @staticmethod
     def btnKaKaoClicked():
 
-        #webbrowser.open('http://'+MyYaml.node_js_host+':'+str(MyYaml.node_js_port))
-        webbrowser.open('https://accounts.kakao.com/login?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fredirect_uri%3Dkakaojs%26response_type%3Dcode%26state%3Dufa89hrnbheqsau6u92cpu8fr%26client_id%3D3dee48e4ccc6b7755390974f30a54832')
+        webbrowser.open('http://'+MyYaml.node_js_host+':'+str(MyYaml.node_js_port)+'/login/kakao')
+        #webbrowser.open('https://accounts.kakao.com/login?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fredirect_uri%3Dkakaojs%26response_type%3Dcode%26state%3Dufa89hrnbheqsau6u92cpu8fr%26client_id%3D3dee48e4ccc6b7755390974f30a54832')
 
     @staticmethod
     def showdialog():

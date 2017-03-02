@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'adduser.ui'
-#
-# Created by: PyQt5 UI code generator 5.7.1
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from FailDialog import FailDialog
@@ -13,7 +5,7 @@ from DeviceinfoThread import DeviceInfoThread
 from Myhttp import FriendCommunication
 from model.Device import DeviceInfo
 from model.User import User
-
+import MainFrame
 
 class AddFriendDialog(object):
 
@@ -21,8 +13,7 @@ class AddFriendDialog(object):
     main_window = None
 
     @staticmethod
-    def init(main_window):
-        AddFriendDialog.main_window = main_window
+    def init():
         AddFriendDialog.Dialog = QtWidgets.QDialog()
         AddFriendDialog.buttonBox = QtWidgets.QDialogButtonBox(AddFriendDialog.Dialog)
         AddFriendDialog.lineEdit = QtWidgets.QLineEdit(AddFriendDialog.Dialog)
@@ -85,7 +76,8 @@ class AddFriendDialog(object):
             DeviceInfoThread.friend_device_info.append(
             DeviceInfo(AddFriendDialog.lineEdit.text(), AddFriendDialog.lineEdit.text()))
 
-            AddFriendDialog.main_window.listwidget_item()
+
+            MainFrame.MainFrame.listwidget_item()
 
             AddFriendDialog.widget_hide()
         else:
